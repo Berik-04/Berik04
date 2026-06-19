@@ -1,513 +1,1108 @@
-
-<!DOCTYPE html>
-<html lang="kaa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programmalıq támiynat sapası</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
-            background: #f4f7fd;
-            color: #1e293b;
-            line-height: 1.5;
-        }
-
-        .hero {
-            background: linear-gradient(125deg, #0b2b4f 0%, #1a4a7a 100%);
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
-            margin-bottom: 2rem;
-        }
-
-        .hero h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-        }
-
-        .hero p {
-            max-width: 700px;
-            margin: 1rem auto 0;
-            opacity: 0.9;
-        }
-
-        .main-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 1.5rem 3rem;
-            display: flex;
-            gap: 2rem;
-        }
-
-        .sidebar {
-            width: 280px;
-            flex-shrink: 0;
-            background: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            padding: 1.5rem;
-            position: sticky;
-            top: 1rem;
-            height: fit-content;
-            border: 1px solid #e2e8f0;
-        }
-
-        .sidebar h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #0f3b5c;
-            border-left: 4px solid #2c7da0;
-            padding-left: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .sidebar ul {
-            list-style: none;
-        }
-
-        .sidebar li {
-            margin-bottom: 0.5rem;
-        }
-
-        .sidebar a {
-            display: block;
-            padding: 0.5rem 0.75rem;
-            color: #2c3e50;
-            text-decoration: none;
-            border-radius: 0.75rem;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-
-        .sidebar a:hover {
-            background: #e1f0fa;
-            color: #0f5b8c;
-            padding-left: 1.2rem;
-        }
-
-        .content-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 1.8rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid #e9edf2;
-            scroll-margin-top: 1rem;
-        }
-
-        .card:hover {
-            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1);
-            transform: translateY(-3px);
-        }
-
-        .badge {
-            display: inline-block;
-            background: #d9eefa;
-            color: #1e6f9f;
-            font-weight: 700;
-            font-size: 0.7rem;
-            padding: 0.25rem 0.9rem;
-            border-radius: 30px;
-            margin-bottom: 1rem;
-            letter-spacing: 0.5px;
-        }
-
-        h2 {
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-            color: #0b2b3f;
-        }
-
-        h3 {
-            font-size: 1.2rem;
-            margin: 1.2rem 0 0.5rem;
-            color: #1a4a6e;
-        }
-
-        p, li {
-            color: #ffffff; 
-        }
-
-        .figure-box {
-            background: #fafcff;
-            border-radius: 1rem;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            text-align: center;
-            border: 1px solid #dee7f2;
-        }
-
-        svg {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .stats-panel {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 1.2rem 0;
-        }
-
-        .stat-mini {
-            background: #f0f6fe;
-            border-radius: 1rem;
-            padding: 0.6rem 1rem;
-            text-align: center;
-            flex: 1;
-            font-weight: 500;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
-
-        th, td {
-            border: 1px solid #cbd5e1;
-            padding: 0.6rem;
-            text-align: left;
-        }
-
-        th {
-            background: #eef2ff;
-        }
-
-        .quote {
-            background: #ecfdf5;
-            border-left: 5px solid #0f7b6e;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            font-style: italic;
-            margin: 1rem 0;
-        }
-
-        .info-list {
-            list-style: none;
-            padding: 0;
-        }
-        .info-list li {
-            margin-bottom: 0.5rem;
-            padding-left: 1.2rem;
-            position: relative;
-        }
-        .info-list li::before {
-            content: "▹";
-            position: absolute;
-            left: 0;
-            color: #2c7da0;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid #cbd5e6;
-            color: #5b6e8c;
-            font-size: 0.8rem;
-            background: #ffffffc9;
-        }
-
-        @media (max-width: 800px) {
-            .main-container {
-                flex-direction: column;
+    <!DOCTYPE html>
+    <html lang="uz">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+        <title>NKS TECH | Admin panel</title>
+        <!-- Font Awesome 6 -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                font-family: 'Inter', sans-serif;
+                background: #0f172a;
+                color: #ffffff;
+                scroll-behavior: smooth;
+                overflow-x: hidden;
             }
-            .sidebar {
+            ::-webkit-scrollbar { width: 8px; }
+            ::-webkit-scrollbar-track { background: #1e293b; }
+            ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #2a6df4, #8b5cf6); border-radius: 10px; }
+
+            body.light-mode {
+                background: #f8fafc;
+                color: #0f172a;
+            }
+            body.light-mode .glass,
+            body.light-mode .product-card,
+            body.light-mode .filter-bar,
+            body.light-mode .modal-content,
+            body.light-mode .stat-card,
+            body.light-mode .admin-panel {
+                background: rgba(255, 255, 255, 0.95);
+                border-color: rgba(0, 0, 0, 0.1);
+                color: #0f172a;
+            }
+            body.light-mode .navbar {
+                background: rgba(255, 255, 255, 0.95);
+                border-bottom-color: rgba(0, 0, 0, 0.1);
+            }
+            body.light-mode .nav-links a { color: #334155; }
+            body.light-mode .hero-text p { color: #475569; }
+            body.light-mode .admin-panel input,
+            body.light-mode .admin-panel select,
+            body.light-mode .admin-panel textarea {
+                background: #f1f5f9;
+                color: #0f172a;
+                border: 1px solid #cbd5e1;
+            }
+
+            .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+            .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+
+            /* Navbar */
+            .navbar {
+                position: sticky; top: 0; z-index: 1000;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(12px);
+                border-bottom: 1px solid rgba(42, 109, 244, 0.3);
+                transition: all 0.3s;
+            }
+            .nav-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                padding: 16px 32px;
+                max-width: 1500px;
+                margin: 0 auto;
+                gap: 20px;
+            }
+            .logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+            .logo i { font-size: 32px; background: linear-gradient(135deg, #2a6df4, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+            .logo h1 { font-size: 26px; font-weight: 800; background: linear-gradient(135deg, #ffffff, #2a6df4); -webkit-background-clip: text; background-clip: text; color: transparent; }
+            .nav-links { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+            .nav-links a { text-decoration: none; color: #e2e8f0; font-weight: 500; transition: 0.3s; cursor: pointer; position: relative; }
+            .nav-links a:hover, .nav-links a.active { color: #2a6df4; }
+            .nav-links a.active::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, #2a6df4, #8b5cf6); }
+            .cart-icon, .user-icon, .dark-toggle { position: relative; font-size: 22px; cursor: pointer; transition: 0.3s; }
+            .cart-icon:hover, .user-icon:hover, .dark-toggle:hover { color: #2a6df4; transform: scale(1.05); }
+            .cart-count { position: absolute; top: -10px; right: -12px; background: linear-gradient(135deg, #ff4d4d, #ff6a6a); color: white; font-size: 11px; font-weight: bold; border-radius: 30px; padding: 2px 6px; min-width: 20px; text-align: center; }
+
+            .btn-primary {
+                background: linear-gradient(135deg, #2a6df4, #8b5cf6);
+                border: none;
+                padding: 12px 32px;
+                border-radius: 40px;
+                font-weight: 600;
+                color: white;
+                cursor: pointer;
+                transition: all 0.3s;
+                box-shadow: 0 4px 15px rgba(42, 109, 244, 0.4);
+            }
+            .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(42, 109, 244, 0.6); }
+            .btn-outline {
+                border: 1.5px solid #2a6df4;
+                background: transparent;
+                padding: 10px 24px;
+                border-radius: 40px;
+                font-weight: 600;
+                color: #2a6df4;
+                transition: 0.3s;
+                cursor: pointer;
+            }
+            .btn-outline:hover { background: rgba(42, 109, 244, 0.2); transform: scale(1.02); }
+            .btn-danger {
+                background: #dc2626;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 30px;
+                font-weight: 600;
+                color: white;
+                cursor: pointer;
+            }
+            .btn-danger:hover { background: #b91c1c; }
+
+            .section-title { font-size: 32px; font-weight: 700; margin: 50px 0 30px; background: linear-gradient(135deg, #ffffff, #2a6df4); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block; }
+
+            /* Admin Panel */
+            .admin-panel {
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 24px;
+                padding: 30px;
+                margin: 30px 0;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .admin-panel h2 { margin-bottom: 20px; }
+            .admin-stats {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+            .stat-card {
+                background: rgba(255, 255, 255, 0.05);
+                padding: 20px;
+                border-radius: 20px;
+                text-align: center;
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            .stat-card h3 { font-size: 28px; color: #2a6df4; }
+            .stat-card p { color: #94a3b8; }
+
+            .admin-form {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+            .admin-form .full-width { grid-column: 1 / -1; }
+            .admin-form input,
+            .admin-form select,
+            .admin-form textarea {
+                padding: 12px 16px;
+                border-radius: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                background: rgba(255, 255, 255, 0.05);
+                color: white;
+                font-family: 'Inter', sans-serif;
                 width: 100%;
-                position: static;
             }
-        }
-    </style>
-</head>
-<body>
-<div class="hero">
-    <h1>Programmalıq támiynat sapası, standartlastırıw hám testlew</h1>
-    <p>UIT 2-DI 23 studenti Seytbaev Berik — Programmaliq támiynat sapası</p>
-</div>
+            .admin-form textarea { min-height: 80px; resize: vertical; }
+            .admin-form label { font-weight: 600; margin-bottom: 5px; display: block; }
 
-<div class="main-container">
-    <aside class="sidebar">
-        <h3>Temalar dizimi</h3>
-        <ul>
-            <li><a href="#t1">1. Sapa usılları: process &amp; ónim</a></li>
-            <li><a href="#t2">2. Qadaǵalaw (QC) basqıshları</a></li>
-            <li><a href="#t3">3. Nátiyjelilik hám isenimlilik</a></li>
-            <li><a href="#t4">4. ISO 25010 sapa omilleri</a></li>
-            <li><a href="#t5">5. Sanlı bahalaw, metrikalar</a></li>
-            <li><a href="#t6">6. Sapa kriteriyaları</a></li>
-            <li><a href="#t7">7. Xalıqaralıq standartlar</a></li>
-            <li><a href="#t8">8. Sertifikatsiyalaw</a></li>
-            <li><a href="#t9">9. TQM hám jetilistiriw</a></li>
-            <li><a href="#t10">10. Verifikatsiya / Validatsiya</a></li>
-            <li><a href="#t11">11. CI/CD procesleri</a></li>
-            <li><a href="#t12">12. Agile / Scrum basqarıw</a></li>
-            <li><a href="#t13">13. Shegaralıq analiz &amp; qara qutı</a></li>
-            <li><a href="#t14">14. Test rejesi, avtomatlastırıw</a></li>
-            <li><a href="#t15">15. Huqıqıy tiykarlar &amp; keleshek</a></li>
-        </ul>
-    </aside>
+            .admin-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+                overflow-x: auto;
+                display: block;
+            }
+            .admin-table th, .admin-table td {
+                padding: 12px 16px;
+                text-align: left;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            .admin-table th { color: #94a3b8; font-weight: 600; font-size: 13px; text-transform: uppercase; }
+            .admin-table td { vertical-align: middle; }
+            .admin-table img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
 
-    <div class="content-area">
-        <!-- 1 -->
-        <div class="card" id="t1">
-            <span class="badge">1-tema</span>
-            <h2>Sapanı támiynlew usılları: Ónim hám process sapası</h2>
-            <p><strong>SQA (Software Quality Assurance)</strong> — bul programmalıq ónimi rawajlanıw basqıshlarındaǵı sapalı processlerdi támiynlew. Process sapası - jumıs usıllarınıń durıslıǵı, ónim sapası - final onımi talaplarǵa say keletuǵının ańlatadı.</p>
-            <div class="figure-box">
-                <svg width="480" height="130" viewBox="0 0 480 130">
-                    <rect x="30" y="30" width="160" height="65" rx="14" fill="#1f6392" opacity="0.9" />
-                    <text x="110" y="70" fill="white" font-size="14" text-anchor="middle">Process sapası</text>
-                    <text x="110" y="88" fill="#e9f1f7" font-size="10" text-anchor="middle">(CMMI, ISO 12207)</text>
-                    <rect x="240" y="30" width="160" height="65" rx="14" fill="#2c7da0" />
-                    <text x="320" y="70" fill="white" font-size="14" text-anchor="middle">Ónim sapası</text>
-                    <text x="320" y="88" fill="#e0f0f7" font-size="10" text-anchor="middle">(funksiya, isenimlilik)</text>
-                    <path d="M190 62 L230 62" stroke="#ffffff" stroke-width="3" marker-end="url(#arw)"/>
-                    <defs><marker id="arw" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 z" fill="white"/></marker></defs>
-                </svg>
-                <div class="figcaption">1-súwret: Process penen ónim sapası bir-birin tolıqtıradı.</div>
+            .toast {
+                position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+                background: linear-gradient(135deg, #2a6df4, #8b5cf6);
+                color: white; padding: 12px 24px; border-radius: 40px; z-index: 3000;
+                animation: fadeInUp 0.3s ease;
+            }
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            }
+
+            .hamburger { display: none; font-size: 24px; cursor: pointer; }
+
+            .modal {
+                display: none;
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                backdrop-filter: blur(15px);
+                justify-content: center; align-items: center;
+                z-index: 2000;
+            }
+            .modal-content {
+                background: rgba(20, 20, 40, 0.98);
+                border-radius: 28px;
+                max-width: 600px;
+                width: 90%;
+                padding: 30px;
+                border: 1px solid rgba(42, 109, 244, 0.5);
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            footer {
+                background: rgba(0, 0, 0, 0.5);
+                padding: 48px 0 32px;
+                margin-top: 60px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            @media (max-width: 768px) {
+                .container { padding: 0 16px; }
+                .nav-links { display: none; flex-direction: column; width: 100%; padding: 20px 0; }
+                .nav-links.active { display: flex; }
+                .hamburger { display: block; }
+                .admin-form { grid-template-columns: 1fr; }
+                .admin-table { font-size: 13px; }
+                .admin-table th, .admin-table td { padding: 8px 10px; }
+            }
+        </style>
+    </head>
+    <body>
+
+    <div class="navbar">
+        <div class="nav-container">
+            <div class="logo" onclick="navigateTo('home')">
+                <i class="fas fa-microchip"></i>
+                <h1>NKS TECH</h1>
             </div>
-            <div class="quote">"Sapalı process — sapalı ónimdiń kópillik kefili" — Deming principi</div>
-            <p><strong>Qosımsha maǵlıwmat:</strong> Process sapasın jaqsılaw ushın PDCA (Plan-Do-Check-Act) cikli qollanıladı. Ónim sapası bolsa funksional talap hám performance kórsetkishler arqalı ólshenedi.</p>
-        </div>
-
-        <!-- 2 -->
-        <div class="card" id="t2">
-            <span class="badge">2-tema</span>
-            <h2>Sapanı qadaǵalaw (QC) basqıshları</h2>
-            <p>QC tómendegi 4 tiykarǵı bosqısh tan ibarat: 1) Talap analizi; 2) Kod review hám statikalıq analiz; 3) Dinamikalıq testlew; 4) Defektlerdi saplaw hám esabat.</p>
-            <div class="figure-box">
-                <svg width="500" height="100" viewBox="0 0 500 100">
-                    <circle cx="55" cy="45" r="24" fill="#2580b0"/><text x="55" y="51" fill="white" font-size="13" text-anchor="middle">1</text>
-                    <circle cx="155" cy="45" r="24" fill="#2c7da0"/><text x="155" y="51" fill="white" font-size="13" text-anchor="middle">2</text>
-                    <circle cx="255" cy="45" r="24" fill="#3a8bbf"/><text x="255" y="51" fill="white" font-size="13" text-anchor="middle">3</text>
-                    <circle cx="355" cy="45" r="24" fill="#58a9cf"/><text x="355" y="51" fill="white" font-size="13" text-anchor="middle">4</text>
-                    <text x="55" y="92" text-anchor="middle" font-size="10">Talap tekseriwi</text>
-                    <text x="155" y="92" text-anchor="middle" font-size="10">Statikalıq analiz</text>
-                    <text x="255" y="92" text-anchor="middle" font-size="10">Dinamikalıq test</text>
-                    <text x="355" y="92" text-anchor="middle" font-size="10">Defekt katalogı</text>
-                </svg>
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
             </div>
-            <p>QC procesi ónimniń hár bir basqıshında qátelerdi anıqlaw hám olardı saplawǵa baǵdarlanǵan. Bul bosqıshlarda statikalıq analiz ushın SonarQube, dinamikalıq test ushın JUnit hám Selenium qollanıladı.</p>
-        </div>
-
-        <!-- 3 -->
-        <div class="card" id="t3">
-            <span class="badge">3-tema</span>
-            <h2>Nátiyjelilik hám isenimlilik kórsetkishleri</h2>
-            <div class="stats-panel">
-                <div class="stat-mini">CPU nátiyjeliligi: <strong>42% jaqsılandı</strong></div>
-                <div class="stat-mini">MTBF: <strong>850 saat</strong></div>
-                <div class="stat-mini">MTTF: <strong>720 saat</strong></div>
-                <div class="stat-mini">Qálpe kórsetkish: <strong>0.9%</strong></div>
+            <div class="nav-links" id="navLinks">
+                <a data-page="home" class="active">Bas bet</a>
+                <a data-page="products">Tavarlar</a>
+                <a data-page="deals">Aksiyalar</a>
+                <a data-page="admin">Admin</a>
+                <a data-page="contact">Baylanis</a>
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                <div class="user-icon" id="userIcon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="dark-toggle" id="darkToggle">
+                    <i class="fas fa-moon"></i>
+                </div>
             </div>
-            <p><strong>MTBF (Mean Time Between Failures)</strong> — eki qáte ortasındaǵı ortasha waqıt. Joqarı MTBF isenimlilikke ısarat. Nátiyjelilik bolsa resurslardı unamlı paydalanıw (CPU, xotira). <strong>MTTF (Mean Time To Failure)</strong> — birinshi qátege shekemǵi waqıt. Bul kórsetkishler sistemalardıń isenimliligin bahalawda tiykarǵı rol oynaydı.</p>
-            <div class="quote">Máselen, bankomat sistemasında MTBF 1000 saat dan joqarı bolıwı kerek.</div>
-        </div>
-
-        <!-- 4 ISO faktörler -->
-        <div class="card" id="t4">
-            <span class="badge">4-tema</span>
-            <h2>ISO/IEC 25010 sapa omilleri</h2>
-            <div class="figure-box">
-                <svg width="500" height="110" viewBox="0 0 500 110">
-                    <rect x="20" y="20" width="100" height="40" fill="#1f6e96" rx="6"/><text x="70" y="44" fill="white" font-size="11" text-anchor="middle">Funkcionallıq</text>
-                    <rect x="135" y="20" width="100" height="40" fill="#3080aa" rx="6"/><text x="185" y="44" fill="white" font-size="11" text-anchor="middle">Qáwipsizlik</text>
-                    <rect x="250" y="20" width="100" height="40" fill="#4293be" rx="6"/><text x="300" y="44" fill="white" font-size="11" text-anchor="middle">Tutınıwshılıq</text>
-                    <rect x="365" y="20" width="100" height="40" fill="#6bb0d4" rx="6"/><text x="415" y="44" fill="white" font-size="11" text-anchor="middle">Portativlik</text>
-                </svg>
-                <p style="margin-top:10px; font-size:0.8rem">Qosımsha omiller: isenimlilik, qolaylıq, saqlanıwshılıq</p>
-            </div>
-            <table>
-                <tr><th>Omil</th><th>Izoh</th></tr>
-                <tr><td>Funkcionallıq</td><td>Wazıypalardı tolıq orınlaydı</td></tr>
-                <tr><td>Isenimlilik</td><td>Qátesiz islew dárejesi</td></tr>
-                <tr><td>Qáwipsizlik</td><td>Maǵlıwmatlardı qorǵaw</td></tr>
-                <tr><td>Performance</td><td>Juwap beriw waqıtı, resurslar</td></tr>
-            </table>
-            <p>ISO 25010 standartı programma óniminiń 8 tiykarǵı sapa ólshemin belgileydi. Bulardıń ishinde uyqaslıq, analizleniwshilik hám ózgertiwshilik de bar.</p>
-        </div>
-
-        <!-- 5 Sanlı metrikalar -->
-        <div class="card" id="t5">
-            <span class="badge">5-tema</span>
-            <h2>Sanlı bahalaw: defekt tıǵızlıǵı, kod qamrovı</h2>
-            <div class="figure-box">
-                <svg width="400" height="120" viewBox="0 0 400 120">
-                    <rect x="30" y="40" width="70" height="40" fill="#2580b0"/><text x="65" y="65" fill="white" text-anchor="middle">1.8</text>
-                    <rect x="130" y="30" width="70" height="50" fill="#2c7da0"/><text x="165" y="65" fill="white" text-anchor="middle">87%</text>
-                    <rect x="230" y="45" width="70" height="35" fill="#479bc7"/><text x="265" y="68" fill="white" text-anchor="middle">9.2</text>
-                    <text x="65" y="105" text-anchor="middle" font-size="9">defekt/KLOC</text>
-                    <text x="165" y="105" text-anchor="middle" font-size="9">test qamrovı</text>
-                    <text x="265" y="105" text-anchor="middle" font-size="9">siklik murakkab</text>
-                </svg>
-            </div>
-            <p>Kod qamrovı ≥80% dep maqul esaplanadı. Siklik murakkablıq Joó (McCabe) úlkenligi quramalılıqtı kórsetedi. Defekt tıǵızlıǵı 1 KLOC (mıń qatar kod) ushın 1.8 dep kórsetilgen.</p>
-            <div class="quote">Eger defekt tıǵızlıǵı 3 ten joqarı bolsa, kod qayta kórip shıǵılıwı kerek.</div>
-        </div>
-
-        <!-- 6 Sapa kriteriyası -->
-        <div class="card" id="t6">
-            <span class="badge">6-tema</span>
-            <h2>Sapa kriteriyaları: tolıqlıq, anıqlıq, turaqlılıq</h2>
-            <ul class="info-list">
-                <li><strong>Tolıqlıq (Completeness)</strong> — ónim barlıq funksiyalardı orınlaydı, hesh qanday kemislik joq.</li>
-                <li><strong>Anıqlıq (Accuracy)</strong> — mısalı, finanslıq sistemalarda qáte 0.01% ten tómen bolıwı shárt.</li>
-                <li><strong>Turaqlılıq (Robustness)</strong> — júk kórgen sáyiste (stress-test) buzılmaydı, qáte situaciyalarda da isleydi.</li>
-                <li><strong>Qayta isletiwshilik</strong> — kod modulleri basqa joybarlarda da qollanıla aladı.</li>
-            </ul>
-        </div>
-
-        <!-- 7 Standartlar -->
-        <div class="card" id="t7">
-            <span class="badge">7-tema</span>
-            <h2>Standartlastırıw: ISO 12207, CMMI, IEEE 829</h2>
-            <div class="figure-box">
-                <svg width="450" height="70" viewBox="0 0 450 70">
-                    <rect x="20" y="15" width="110" height="40" rx="8" fill="#1a5a7a"/><text x="75" y="40" fill="white" font-size="12">ISO 12207</text>
-                    <rect x="150" y="15" width="110" height="40" rx="8" fill="#26648b"/><text x="205" y="40" fill="white" font-size="12">CMMI</text>
-                    <rect x="280" y="15" width="110" height="40" rx="8" fill="#3982aa"/><text x="335" y="40" fill="white" font-size="12">IEEE 829</text>
-                </svg>
-            </div>
-            <p><strong>ISO/IEC 12207</strong> — programmalıq támiynat ómir cikli processlerin belgileydi. <strong>CMMI (Capability Maturity Model Integration)</strong> — process jetiliskenlik dárejelerin (1-den 5-ge shekem) bahalaydı. <strong>IEEE 829</strong> — test dokumentaciyası (test reje, test case, qáte esabatı) ushın standart.</p>
-        </div>
-
-        <!-- 8 Sertifikatlash -->
-        <div class="card" id="t8">
-            <span class="badge">8-tema</span>
-            <h2>Sertifikatlash : DO-178C, meditsina hám bank sapası</h2>
-            <p>Aviaciya (DO-178C), medicina qurılmaları (IEC 62304), bank sistemaları (PCI DSS, ISO 27001) ushın sertifikatsiyasız bozarǵa shıǵıw qıyın. ISO 9001 (Jámi basqarıw) hám ISO 27001 (maǵlıwmatlar qáwipsizligi) de úzliksiz talap etiledi.</p>
-            <div class="quote">DO-178C dárejesi A (critical) dárejesinde hár bir kod qatarı test qamrovın talap etedi.</div>
-        </div>
-
-        <!-- 9 TQM -->
-        <div class="card" id="t9">
-            <span class="badge">9-tema</span>
-            <h2>TQM: Úzliksiz jetilistiriw (Kaizen)</h2>
-            <p>Jámi sapalı basqarıw — demokratik liderlik, processlerdi optimallastırıw. Hár bir sprint ten keyin retrospektiv ótkeriw, client qanaatlanıwın ólshew.</p>
-            <div class="figure-box">
-                <svg width="300" height="100" viewBox="0 0 300 100">
-                    <circle cx="150" cy="50" r="40" fill="none" stroke="#2c7da0" stroke-width="4"/>
-                    <text x="150" y="55" text-anchor="middle" fill="#1e4a6e" font-size="12">Kaizen</text>
-                    <text x="150" y="75" text-anchor="middle" fill="#4a6a8a" font-size="9">úlken emes, biraq úzliksiz</text>
-                </svg>
-            </div>
-            <div class="quote">"Búgin keshigiden jaqsıraq bolıw — TQM principi"</div>
-            <p>TQM tiykarında PDCA cikli, statistikalıq process basqarıw (SPC), benchmark hám toparlı jumıs metodları bar.</p>
-        </div>
-
-        <!-- 10 Verifikatsiya/Validatsiya -->
-        <div class="card" id="t10">
-            <span class="badge">10-tema</span>
-            <h2>Verifikatsiya vs Validatsiya</h2>
-            <ul class="info-list">
-                <li><strong>Verifikatsiya:</strong> “Tuwrı qurıp atamız ba?” (specifikaciyaǵa saylıq) — statikalıq analiz, kod review, inspection.</li>
-                <li><strong>Validatsiya:</strong> “Tuwrı ónim qurdıq pa?” (paydalanıwshı mútájligi) — dinamikalıq test, betatesting, alfa/beta versiyalar.</li>
-            </ul>
-            <div class="figure-box">
-                <svg width="300" height="60"><rect x="20" y="15" width="120" height="32" fill="#57a6c7" rx="6"/><text x="80" y="36" fill="white" font-size="12">Verifikatsiya</text><rect x="165" y="15" width="120" height="32" fill="#165a7a" rx="6"/><text x="225" y="36" fill="white" font-size="12">Validatsiya</text></svg>
-            </div>
-            <p>Máselen, specifikaciya boyınsha túyme basqanda jaqtılıq jánedi — verifikatsiya. Paydalanıwshı usı funkciyanı qalay qabıl etedi — validatsiya.</p>
-        </div>
-
-        <!-- 11 CI/CD -->
-        <div class="card" id="t11">
-            <span class="badge">11-tema</span>
-            <h2>CI/CD quwırları (DevOps)</h2>
-            <p>Continuous Integration / Continuous Deployment : Jenkins, GitHub Actions, GitLab CI, Azure DevOps. Avtomatlastırılǵan build, test hám deploy sapalıqtı tezletedi.</p>
-            <div class="figure-box">
-                <svg width="360" height="50" viewBox="0 0 360 50">
-                    <rect x="15" y="10" width="80" height="30" fill="#329d8c" rx="6"/><text x="55" y="30" fill="white" font-size="10">Build</text>
-                    <rect x="115" y="10" width="80" height="30" fill="#1f6e8c" rx="6"/><text x="155" y="30" fill="white" font-size="10">Test</text>
-                    <rect x="215" y="10" width="80" height="30" fill="#0e5775" rx="6"/><text x="255" y="30" fill="white" font-size="10">Deploy</text>
-                    <path d="M95 25 L110 25" stroke="#fff" stroke-width="2"/><path d="M195 25 L210 25" stroke="#fff" stroke-width="2"/>
-                </svg>
-            </div>
-            <p>CI/CD pipeline'da unit test, integraciyalıq test, sonardıq endi statikalıq analiz avtomat túrde iske tusedi.</p>
-        </div>
-
-        <!-- 12 Agile -->
-        <div class="card" id="t12">
-            <span class="badge">12-tema</span>
-            <h2>Agile / Scrum arqalı basqarıw</h2>
-            <p>Sprintlar (1-4 hápte), product backlog, daily stand-up. Sapalıq ushın test avtomatizaciyası hár bir sprintke kiredi. Scrumda Definition of Done (DoD) — sprint ta'minlenetuǵın sapalıq standartlar jıynaǵı.</p>
-            <div class="stats-panel">
-                <div class="stat-mini">Product Owner</div>
-                <div class="stat-mini">Scrum Master</div>
-                <div class="stat-mini">Development Team</div>
-            </div>
-            <div class="quote">"Agile'da testlew passiv emes, aktiv process — testers hár kúni kodqa test jazadı."</div>
-        </div>
-
-        <!-- 13 Shegaralıq analiz, Black box -->
-        <div class="card" id="t13">
-            <span class="badge">13-tema</span>
-            <h2>Shegaralıq analiz (BVA) hám ekvivalentlik bóliniw</h2>
-            <p>Mısal: parol uzınlıǵı 8–16 simvol. Sınaw mánisleri: 7,8,9,15,16,17 (shegaralıq mánisler). Jáne <strong>Qara qutı</strong> (Black Box) – input/outputqa qaray, kod ishki strukturası kórinbeydi. <strong>Aq qutı</strong> (White Box) – kod logikasın analiz qıladı, branch hám path test.</p>
-            <div class="figure-box">
-                <svg width="360" height="50" viewBox="0 0 360 50">
-                    <circle cx="45" cy="25" r="12" fill="#e35152"/><text x="40" y="30" fill="white" font-size="9">7</text>
-                    <circle cx="95" cy="25" r="12" fill="#44aa77"/><text x="90" y="30" fill="white" font-size="9">8</text>
-                    <circle cx="165" cy="25" r="12" fill="#44aa77"/><text x="160" y="30" fill="white" font-size="9">15</text>
-                    <circle cx="215" cy="25" r="12" fill="#44aa77"/><text x="210" y="30" fill="white" font-size="9">16</text>
-                    <circle cx="270" cy="25" r="12" fill="#e35152"/><text x="265" y="30" fill="white" font-size="9">17</text>
-                </svg>
-            </div>
-            <p>Ekvivalentlik bólistiriw: 1-7 (qábilet joq), 8-16 (qábilet bar), 17+ (qábilet joq). Testlewde hám bir diapazondan bir mánis alınsa boladı.</p>
-        </div>
-
-        <!-- 14 Test rejesi -->
-        <div class="card" id="t14">
-            <span class="badge">14-tema</span>
-            <h2>Test rejesi hám avtomatlastırılǵan testlew</h2>
-            <p>Test rejesi quramı: test strategiyası, resurslar, test kriteriyaları, test jumısları, shıǵıw kriteriyaları. Selenium, Cypress, Postman, JUnit járdeminde unit test, integraciyalıq test, E2E test.</p>
-            <div class="stats-panel">
-                <div class="stat-mini">Unit test (Jest/JUnit)</div>
-                <div class="stat-mini">Integraciya (Postman)</div>
-                <div class="stat-mini">E2E (Cypress)</div>
-                <div class="stat-mini">Load test (JMeter)</div>
-            </div>
-            <div class="figure-box">
-                <svg width="400" height="50" viewBox="0 0 400 50">
-                    <rect x="10" y="5" width="80" height="30" fill="#1f6e8c" rx="6"/><text x="50" y="24" fill="white" font-size="9">Unit</text>
-                    <rect x="110" y="5" width="90" height="30" fill="#2c7da0" rx="6"/><text x="155" y="24" fill="white" font-size="9">Integraciya</text>
-                    <rect x="220" y="5" width="80" height="30" fill="#4293be" rx="6"/><text x="260" y="24" fill="white" font-size="9">E2E</text>
-                    <rect x="320" y="5" width="70" height="30" fill="#5aa9d5" rx="6"/><text x="355" y="24" fill="white" font-size="9">Júk</text>
-                </svg>
-            </div>
-        </div>
-
-        <!-- 15 Huqıqıy tiykar hám rawajlanıw -->
-        <div class="card" id="t15">
-            <span class="badge">15-tema</span>
-            <h2>Huqıqıy tiykarlar hám AI testlewge integraciya</h2>
-            <p>Programmalıq támiynat sapası boyınsha huqıqıy hújjetler: ISO normativleri (ISO 9001, ISO 27001), milliylestiriw (GOST), cifrlıq huqıq (GDPR, CC). AI járdeminde test generation (diffblue, testim.io), CMMI dárejelerin kóteriw.</p>
-            <div class="figure-box">
-                <svg width="300" height="60">
-                    <polygon points="40,45 150,10 260,45 150,35" fill="#2c7da0" opacity="0.9"/>
-                    <text x="150" y="38" fill="white" text-anchor="middle" font-size="10">Úzliksiz sapalıq jetilistiriw</text>
-                </svg>
-            </div>
-            <div class="quote">"Keleshekte sapalıq testlew AI hám ML modelleri menen birge isleydi: avtomat test case generation, qáte boljaw, test maǵlıwmatların sintetizaciyalaw."</div>
-            <p>Machine Learning modellerin testlew (ML Test Score) hám AI etikası da sapa standartlarınıń bir bólegine aylanbaqta.</p>
         </div>
     </div>
-</div>
-</body>
-</html>
-```
+
+    <main id="app"></main>
+
+    <footer>
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                <div><h3 style="margin-bottom:15px;">NKS TECH</h3><p style="color:#94a3b8;">Texnika ham elektronika tovarlar savdo platformasi</p></div>
+                <div>
+                    <h3 style="margin-bottom:15px;">Silka</h3>
+                    <p><a href="#" style="color:#94a3b8; text-decoration:none;" onclick="navigateTo('home')">Bas bet</a></p>
+                    <p><a href="#" style="color:#94a3b8; text-decoration:none;" onclick="navigateTo('products')">Ónimler</a></p>
+                    <p><a href="#" style="color:#94a3b8; text-decoration:none;" onclick="navigateTo('deals')">Aksiyalar</a></p>
+                    <p><a href="#" style="color:#94a3b8; text-decoration:none;" onclick="navigateTo('admin')">Admin</a></p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom:15px;">Baylanis</h3>
+                    <p><i class="fas fa-phone"></i> +998 91 391 24 34</p>
+                    <p><i class="fas fa-envelope"></i> info@nkstech.uz</p>
+                    <p><i class="fas fa-map-marker-alt"></i> рынок, г. Нукус, Ерназар Алако'з 162 ориентир: Дехканский, Nukus, Uzbekistan</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom:15px;">Jazılıń</h3>
+                    <div style="display:flex; gap:10px;">
+                        <input type="email" id="newsletterEmail" placeholder="Email manzilingiz" style="padding:10px; border-radius:40px; border:none; flex:1;">
+                        <button class="btn-primary" style="padding:10px 20px;" onclick="subscribeNewsletter()">jiberiw</button>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin:30px 0; border-color:rgba(255,255,255,0.1);">
+            <p style="text-align:center; color:#94a3b8;">©2025 NKS TECH. Barlıq huqıqlar qorǵalǵan.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-shopping-cart"></i> Sebet</h3>
+            <div id="cartItems" style="margin:20px 0;"></div>
+            <div id="cartTotal" style="font-size:24px; font-weight:700;"></div>
+            <button class="btn-primary" id="checkoutBtn" style="margin-top:20px;">Rásmiylestiriw</button>
+            <button class="btn-outline" id="closeCartBtn" style="margin-top:10px;">Jabıw</button>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <h3>Ónimdi redaktorlaw</h3>
+            <form id="editProductForm" style="display:grid; gap:15px; margin-top:20px;">
+                <input type="hidden" id="editId">
+                <input type="text" id="editName" placeholder="Atı" required>
+                <input type="text" id="editCategory" placeholder="Kategoriya">
+                <input type="text" id="editBrand" placeholder="Brend">
+                <input type="number" id="editPrice" placeholder="Bahası" required>
+                <input type="number" id="editOldPrice" placeholder="Eski baha">
+                <input type="number" id="editRating" placeholder="Reyting (0-5)" step="0.1">
+                <input type="number" id="editReviews" placeholder="Pikirler sanı">
+                <input type="text" id="editImage" placeholder="Rasm URL">
+                <textarea id="editDesc" placeholder="Táriypi"></textarea>
+                <input type="text" id="editBadge" placeholder="Belgi (Chegirma, Top, vs)">
+                <input type="number" id="editWarranty" placeholder="Kepillik (oy)" value="12">
+                <select id="editInStock"><option value="true">Borda</option><option value="false">Joq</option></select>
+                <div style="display:flex; gap:10px;">
+                    <button type="submit" class="btn-primary">Saqlaw</button>
+                    <button type="button" class="btn-outline" onclick="closeEditModal()">Biykar etiw</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Compare Modal -->
+    <div id="compareModal" class="modal"></div>
+
+    <script>
+        // ==================== MAHSULOTLAR MA'LUMOTLARI ====================
+        let products = [
+            { id: 1, name: "Samsung Smart Refrigerator", category: "Sovutgichlar", brand: "Samsung", price: 8999000, oldPrice: 10999000, rating: 4.8, reviews: 234, image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=300&h=200&fit=crop", desc: "AI energiya tejovchi, WiFi boshqaruv, 400L", specs: { "Hajmi": "400L", "Energiya": "A+++" }, inStock: true, warranty: 24, badge: "Chegirma" },
+            { id: 2, name: "LG AI Washer", category: "Kir yuvish", brand: "LG", price: 5499000, oldPrice: 6999000, rating: 4.9, reviews: 178, image: "https://images.unsplash.com/photo-1626806787461-102c1a8bec0d?w=300&h=200&fit=crop", desc: "AI yukni aniqlash, 12kg, Steam texnologiya", specs: { "Yuk": "12kg", "Aylanish": "1400 rpm" }, inStock: true, warranty: 36, badge: "Top" },
+            { id: 3, name: "Xiaomi Robot Vacuum", category: "Tozalash", brand: "Xiaomi", price: 2899000, oldPrice: 3599000, rating: 4.7, reviews: 456, image: "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=300&h=200&fit=crop", desc: "AI haritalash, 4000Pa, 180min", specs: { "Quvvat": "4000Pa", "Batareya": "180min" }, inStock: true, warranty: 12, badge: "Chegirma" },
+            { id: 4, name: "Samsung QLED TV 65\"", category: "Televizorlar", brand: "Samsung", price: 12999000, oldPrice: 15999000, rating: 4.9, reviews: 312, image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=300&h=200&fit=crop", desc: "4K QLED, 120Hz, AI upscaling", specs: { "Ekran": "65\"", "Rezolyutsiya": "4K" }, inStock: true, warranty: 36, badge: "Premium" },
+            { id: 5, name: "Beko Built-in Oven", category: "Oshxona", brand: "Beko", price: 3299000, oldPrice: 3999000, rating: 4.6, reviews: 89, image: "https://images.unsplash.com/photo-1584982751601-97dcc9c6d7b3?w=300&h=200&fit=crop", desc: "10 funksiya, pirolitik tozalash", specs: { "Hajmi": "72L", "Quvvat": "3000W" }, inStock: true, warranty: 24, badge: null },
+            { id: 6, name: "Daikin Conditioner", category: "Konditsionerlar", brand: "Daikin", price: 4499000, oldPrice: 5499000, rating: 4.8, reviews: 156, image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=300&h=200&fit=crop", desc: "Inverter, WiFi, 3D havo oqimi", specs: { "Quvvat": "2.5kW", "Iqlim": "A++" }, inStock: true, warranty: 36, badge: "Eko" },
+            { id: 7, name: "Apple Watch Series 9", category: "Gadjetlar", brand: "Apple", price: 4999000, oldPrice: 5999000, rating: 4.9, reviews: 567, image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=300&h=200&fit=crop", desc: "AI health tracking, ECG, GPS", specs: { "Ekran": "1.9\"", "Batareya": "18h" }, inStock: true, warranty: 12, badge: "Yangi" },
+            { id: 8, name: "Philips Air Purifier", category: "Iqlim", brand: "Philips", price: 2299000, oldPrice: 2899000, rating: 4.7, reviews: 234, image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=300&h=200&fit=crop", desc: "HEPA H13, AI sensor, 360°", specs: { "Maydon": "50m²", "Filtr": "HEPA H13" }, inStock: true, warranty: 24, badge: null },
+            { id: 9, name: "Bosch Dishwasher", category: "Oshxona", brand: "Bosch", price: 4799000, oldPrice: 5599000, rating: 4.8, reviews: 145, image: "https://images.unsplash.com/photo-1584982751601-97dcc9c6d7b3?w=300&h=200&fit=crop", desc: "SilencePlus, 14 o'rin", specs: { "O'rin": "14", "Shovqin": "44dB" }, inStock: true, warranty: 36, badge: null },
+            { id: 10, name: "Miele Vacuum Cleaner", category: "Tozalash", brand: "Miele", price: 3999000, oldPrice: 4999000, rating: 4.9, reviews: 98, image: "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=300&h=200&fit=crop", desc: "Germaniya sifati, HEPA filtr", specs: { "Quvvat": "2000W", "Filtr": "HEPA" }, inStock: true, warranty: 24, badge: "Premium" },
+            { id: 11, name: "Sony Bravia TV 55\"", category: "Televizorlar", brand: "Sony", price: 8999000, oldPrice: 10999000, rating: 4.8, reviews: 267, image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=300&h=200&fit=crop", desc: "OLED, Google TV, AI", specs: { "Ekran": "55\"", "Texnologiya": "OLED" }, inStock: true, warranty: 36, badge: null },
+            { id: 12, name: "Electrolux Microwave", category: "Oshxona", brand: "Electrolux", price: 1999000, oldPrice: 2499000, rating: 4.5, reviews: 123, image: "https://images.unsplash.com/photo-1584982751601-97dcc9c6d7b3?w=300&h=200&fit=crop", desc: "25L, grill funksiyasi", specs: { "Hajmi": "25L", "Quvvat": "900W" }, inStock: true, warranty: 12, badge: "Chegirma" },
+            { id: 13, name: "Tefal Multicooker", category: "Oshxona", brand: "Tefal", price: 1499000, oldPrice: 1899000, rating: 4.6, reviews: 234, image: "https://images.unsplash.com/photo-1584982751601-97dcc9c6d7b3?w=300&h=200&fit=crop", desc: "15 dastur, bosimli pishirish", specs: { "Hajmi": "5L", "Dasturlar": "15" }, inStock: true, warranty: 12, badge: null },
+            { id: 14, name: "Dyson Hair Dryer", category: "Kichik texnika", brand: "Dyson", price: 3999000, oldPrice: 4999000, rating: 4.9, reviews: 456, image: "https://images.unsplash.com/photo-1522338140262-f46f5913618a?w=300&h=200&fit=crop", desc: "AI issiqlik nazorati", specs: { "Quvvat": "1600W", "Texnologiya": "Air Multiplier" }, inStock: true, warranty: 24, badge: "Premium" },
+            { id: 15, name: "Google Nest Hub", category: "Aqlli uy", brand: "Google", price: 1199000, oldPrice: 1599000, rating: 4.7, reviews: 345, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300&h=200&fit=crop", desc: "7 dyuym ekran, Google Assistant", specs: { "Ekran": "7\"", "Assistent": "Google" }, inStock: true, warranty: 12, badge: null },
+            { id: 16, name: "Amazon Echo Show", category: "Aqlli uy", brand: "Amazon", price: 1399000, oldPrice: 1799000, rating: 4.6, reviews: 234, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300&h=200&fit=crop", desc: "10 dyuym, Alexa", specs: { "Ekran": "10\"", "Assistent": "Alexa" }, inStock: true, warranty: 12, badge: null },
+            { id: 17, name: "Xiaomi Smart Scale", category: "Gadjetlar", brand: "Xiaomi", price: 249000, oldPrice: 349000, rating: 4.5, reviews: 789, image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=300&h=200&fit=crop", desc: "AI tana tahlili", specs: { "Og'irlik": "150kg", "Batareya": "AA" }, inStock: true, warranty: 6, badge: "Chegirma" },
+            { id: 18, name: "JBL Bluetooth Speaker", category: "Audio", brand: "JBL", price: 899000, oldPrice: 1299000, rating: 4.8, reviews: 567, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop", desc: "20 soat, suvga chidamli", specs: { "Quvvat": "30W", "Batareya": "20h" }, inStock: true, warranty: 12, badge: null },
+            { id: 19, name: "Sony Noise Cancelling", category: "Audio", brand: "Sony", price: 1499000, oldPrice: 1999000, rating: 4.9, reviews: 678, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop", desc: "AI noise cancellation", specs: { "Batareya": "30h", "Texnologiya": "LDAC" }, inStock: true, warranty: 12, badge: "Top" },
+            { id: 20, name: "Xiaomi Smart Air Fryer", category: "Oshxona", brand: "Xiaomi", price: 1299000, oldPrice: 1699000, rating: 4.7, reviews: 345, image: "https://images.unsplash.com/photo-1584982751601-97dcc9c6d7b3?w=300&h=200&fit=crop", desc: "4.5L, app boshqaruv", specs: { "Hajmi": "4.5L", "Dasturlar": "10" }, inStock: true, warranty: 12, badge: "Yangi" }
+        ];
+
+        // State
+        let cart = JSON.parse(localStorage.getItem('smarttexno_cart')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('smarttexno_wishlist')) || [];
+        let compareList = JSON.parse(localStorage.getItem('smarttexno_compare')) || [];
+        let orders = JSON.parse(localStorage.getItem('smarttexno_orders')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('smarttexno_user')) || { name: "Mehmon", email: "", phone: "", address: "" };
+        let currentPage = 'home';
+        let darkMode = localStorage.getItem('darkMode') !== 'false';
+
+        function formatPrice(price) { return new Intl.NumberFormat('uz-UZ').format(price) + " som"; }
+
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        function updateCartCount() {
+            const total = cart.reduce((s, i) => s + i.quantity, 0);
+            document.getElementById('cartCount').innerText = total;
+            localStorage.setItem('smarttexno_cart', JSON.stringify(cart));
+        }
+
+        function addToCart(productId, quantity = 1) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(i => i.id === productId);
+            if (existing) { existing.quantity += quantity; }
+            else { cart.push({ id: productId, name: product.name, price: product.price, quantity: quantity, image: product.image }); }
+            updateCartCount();
+            showToast(`${product.name} sebetke qosıldı`);
+            renderCurrentPage();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.id !== productId);
+            updateCartCount();
+            renderCartModal();
+            renderCurrentPage();
+            showToast("Ónim alıp taslandı");
+        }
+
+        function toggleWishlist(productId) {
+            const index = wishlist.indexOf(productId);
+            if (index === -1) { wishlist.push(productId); showToast("Súyiklilerge qosıldı"); }
+            else { wishlist.splice(index, 1); showToast("Súyiklilerden alıp taslandı"); }
+            localStorage.setItem('smarttexno_wishlist', JSON.stringify(wishlist));
+            renderCurrentPage();
+        }
+
+        function toggleCompare(productId) {
+            const index = compareList.indexOf(productId);
+            if (index === -1 && compareList.length < 3) { compareList.push(productId); showToast("Salıstırıwǵa qosıldı"); }
+            else if (index !== -1) { compareList.splice(index, 1); showToast("Salıstırıwdan alıp taslandı"); }
+            else { showToast("Tek 3 ke shekem ónimdi salıstırıw múmkin"); }
+            localStorage.setItem('smarttexno_compare', JSON.stringify(compareList));
+            updateComparePanel();
+            renderCurrentPage();
+        }
+
+        function updateComparePanel() {
+            const panel = document.getElementById('comparePanel');
+            const compareDiv = document.getElementById('compareList');
+            const compareCount = document.getElementById('compareCount');
+            if (!panel) return;
+            if (compareList.length > 0) {
+                panel.style.display = 'block';
+                compareCount.innerText = compareList.length;
+                compareDiv.innerHTML = compareList.map(id => {
+                    const p = products.find(pr => pr.id === id);
+                    return `<div style="display:flex; justify-content:space-between; align-items:center; margin:8px 0;">
+                                <small>${p.name.substring(0, 20)}...</small>
+                                <button onclick="toggleCompare(${id})" style="background:none; border:none; color:#ff4d4d; cursor:pointer;">✕</button>
+                            </div>`;
+                }).join('');
+            } else {
+                panel.style.display = 'none';
+            }
+        }
+
+        function showCompareModal() {
+            if (compareList.length < 2) { showToast("Keminde 2 ónimdi tańlań"); return; }
+            const compareProducts = compareList.map(id => products.find(p => p.id === id));
+            let html = '<h3>📊Ónimler salıstırması</h3><div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px;">';
+            compareProducts.forEach(p => {
+                html += `<div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px;">
+                            <img src="${p.image}" style="width:100%; height:150px; object-fit:cover; border-radius:12px;">
+                            <h4 style="margin-top:12px;">${p.name}</h4>
+                            <p class="price">${formatPrice(p.price)}</p>
+                            <p>⭐ ${p.rating} (${p.reviews})</p>
+                            <p style="font-size:13px;">${p.desc}</p>
+                            <button class="btn-outline" style="margin-top:10px;" onclick="addToCart(${p.id}); document.getElementById('compareModal').style.display='none';">Sebetge</button>
+                        </div>`;
+            });
+            html += '</div><button class="btn-primary" style="margin-top:20px;" onclick="closeCompareModal()">Jabiw</button>';
+            
+            let modal = document.getElementById('compareModal');
+            if (!modal) { modal = document.createElement('div'); modal.id = 'compareModal'; modal.className = 'modal'; document.body.appendChild(modal); }
+            modal.innerHTML = `<div class="modal-content">${html}</div>`;
+            modal.style.display = 'flex';
+        }
+
+        function closeCompareModal() {
+            const modal = document.getElementById('compareModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function renderCartModal() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            const cartTotalDiv = document.getElementById('cartTotal');
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<div style="text-align:center; padding:40px;"><i class="fas fa-shopping-bag fa-3x"></i><p>Sebet bos</p></div>';
+                cartTotalDiv.innerHTML = '';
+            } else {
+                let total = 0;
+                cartItemsDiv.innerHTML = cart.map(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    return `
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.1);">
+                            <div style="display:flex; gap:12px; align-items:center;">
+                                <img src="${item.image}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">
+                                <div><strong>${item.name}</strong><br><small>${formatPrice(item.price)}</small></div>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <button onclick="updateCartQuantity(${item.id}, ${item.quantity - 1})" style="background:rgba(255,255,255,0.1); border:none; width:30px; height:30px; border-radius:8px;">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="updateCartQuantity(${item.id}, ${item.quantity + 1})" style="background:rgba(255,255,255,0.1); border:none; width:30px; height:30px; border-radius:8px;">+</button>
+                                <button onclick="removeFromCart(${item.id})" style="background:none; border:none; color:#ff4d4d;"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                cartTotalDiv.innerHTML = `<strong>Umumiy: ${formatPrice(total)}</strong>`;
+            }
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+
+        function updateCartQuantity(productId, newQuantity) {
+            if (newQuantity <= 0) { removeFromCart(productId); return; }
+            const item = cart.find(i => i.id === productId);
+            if (item) { item.quantity = newQuantity; updateCartCount(); renderCartModal(); renderCurrentPage(); }
+        }
+
+        function checkout() {
+            if (cart.length === 0) { showToast("Savat bo'sh!"); return; }
+            navigateTo('checkout');
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function placeOrder(orderData) {
+            const newOrder = { id: Date.now(), date: new Date().toLocaleDateString('uz-UZ'), ...orderData, total: cart.reduce((s, i) => s + (i.price * i.quantity), 0), items: [...cart] };
+            orders.unshift(newOrder);
+            localStorage.setItem('smarttexno_orders', JSON.stringify(orders));
+            cart = [];
+            updateCartCount();
+            showToast(`Buyırtpa qabıl etildi! №${newOrder.id}`);
+            navigateTo('dashboard');
+        }
+
+        // ---- Admin Functions ----
+        function deleteProduct(id) {
+            if (!confirm("Bul ónimdi óshiriwge isenimiz bar ma?")) return;
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem('smarttexno_products', JSON.stringify(products));
+            showToast("Ónim óshirildi");
+            renderAdminPanel();
+            renderCurrentPage();
+        }
+
+        function openEditProduct(id) {
+            const p = products.find(pr => pr.id === id);
+            if (!p) return;
+            document.getElementById('editId').value = p.id;
+            document.getElementById('editName').value = p.name;
+            document.getElementById('editCategory').value = p.category || '';
+            document.getElementById('editBrand').value = p.brand || '';
+            document.getElementById('editPrice').value = p.price;
+            document.getElementById('editOldPrice').value = p.oldPrice || '';
+            document.getElementById('editRating').value = p.rating || 0;
+            document.getElementById('editReviews').value = p.reviews || 0;
+            document.getElementById('editImage').value = p.image || '';
+            document.getElementById('editDesc').value = p.desc || '';
+            document.getElementById('editBadge').value = p.badge || '';
+            document.getElementById('editWarranty').value = p.warranty || 12;
+            document.getElementById('editInStock').value = p.inStock ? 'true' : 'false';
+            document.getElementById('editProductModal').style.display = 'flex';
+        }
+
+        function closeEditModal() {
+            document.getElementById('editProductModal').style.display = 'none';
+        }
+
+        document.getElementById('editProductForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('editId').value);
+            const index = products.findIndex(p => p.id === id);
+            if (index === -1) return;
+            const updated = {
+                id: id,
+                name: document.getElementById('editName').value,
+                category: document.getElementById('editCategory').value,
+                brand: document.getElementById('editBrand').value,
+                price: parseFloat(document.getElementById('editPrice').value),
+                oldPrice: parseFloat(document.getElementById('editOldPrice').value) || null,
+                rating: parseFloat(document.getElementById('editRating').value) || 0,
+                reviews: parseInt(document.getElementById('editReviews').value) || 0,
+                image: document.getElementById('editImage').value || 'https://placehold.co/300x200/2a6df4/white?text=Product',
+                desc: document.getElementById('editDesc').value,
+                badge: document.getElementById('editBadge').value || null,
+                warranty: parseInt(document.getElementById('editWarranty').value) || 12,
+                inStock: document.getElementById('editInStock').value === 'true',
+                specs: products[index].specs || {}
+            };
+            products[index] = updated;
+            localStorage.setItem('smarttexno_products', JSON.stringify(products));
+            showToast("Ónim jańalandı");
+            closeEditModal();
+            renderAdminPanel();
+            renderCurrentPage();
+        });
+
+        function addNewProduct() {
+            const newId = Math.max(...products.map(p => p.id), 0) + 1;
+            const newProduct = {
+                id: newId,
+                name: "Jańa ónim",
+                category: "Kategoriya",
+                brand: "Brend",
+                price: 0,
+                oldPrice: null,
+                rating: 0,
+                reviews: 0,
+                image: "https://placehold.co/300x200/2a6df4/white?text=New",
+                desc: "Táriypi",
+                badge: null,
+                warranty: 12,
+                inStock: true,
+                specs: {}
+            };
+            products.push(newProduct);
+            localStorage.setItem('smarttexno_products', JSON.stringify(products));
+            showToast("Jańa ónim qosıldı");
+            renderAdminPanel();
+            renderCurrentPage();
+        }
+
+        // ---- RENDER: Admin Panel ----
+        function renderAdminPanel() {
+            const totalProducts = products.length;
+            const totalOrders = orders.length;
+            const totalRevenue = orders.reduce((s, o) => s + o.total, 0);
+            
+            document.getElementById('app').innerHTML = `
+                <div class="container">
+                    <div class="section-title">⚙️ Admin basqarıw paneli</div>
+                    
+                    <div class="admin-stats">
+                        <div class="stat-card"><h3>${totalProducts}</h3><p>Ónimler</p></div>
+                        <div class="stat-card"><h3>${totalOrders}</h3><p>Buyırtpalar</p></div>
+                        <div class="stat-card"><h3>${formatPrice(totalRevenue)}</h3><p>Jami kirim</p></div>
+                        <div class="stat-card"><h3>${cart.reduce((s,i)=>s+i.quantity,0)}</h3><p>Sebettegi ónimler</p></div>
+                    </div>
+
+                    <div class="admin-panel">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:20px;">
+                            <h2>📦 Ónimler dizimi</h2>
+                            <button class="btn-primary" onclick="addNewProduct()"><i class="fas fa-plus"></i> Jańa ónim</button>
+                        </div>
+                        <div style="overflow-x:auto;">
+                            <table class="admin-table">
+                                <thead><tr><th>#</th><th>Rasm</th><th>Atı</th><th>Kategoriya</th><th>Brend</th><th>Bahası</th><th>Status</th><th>Ámeller</th></tr></thead>
+                                <tbody>
+                                    ${products.map((p, idx) => `
+                                        <tr>
+                                            <td>${idx+1}</td>
+                                            <td><img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/50x50/2a6df4/white?text=?'"></td>
+                                            <td><strong>${p.name}</strong></td>
+                                            <td>${p.category}</td>
+                                            <td>${p.brand}</td>
+                                            <td>${formatPrice(p.price)}</td>
+                                            <td><span style="color:${p.inStock ? '#22c55e' : '#ef4444'};">${p.inStock ? 'Borda' : 'Joq'}</span></td>
+                                            <td style="display:flex; gap:6px; flex-wrap:wrap;">
+                                                <button class="btn-outline" style="padding:4px 12px; font-size:12px;" onclick="openEditProduct(${p.id})"><i class="fas fa-edit"></i></button>
+                                                <button class="btn-danger" style="padding:4px 12px; font-size:12px;" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="admin-panel">
+                        <h2>📊 Buyırtpalar tariyxı</h2>
+                        ${orders.length ? `
+                            <table class="admin-table">
+                                <thead><tr><th>№</th><th>Sana</th><th>At</th><th>Telefon</th><th>Manzil</th><th>Summa</th></tr></thead>
+                                <tbody>
+                                    ${orders.map(o => `
+                                        <tr>
+                                            <td>${o.id}</td>
+                                            <td>${o.date}</td>
+                                            <td>${o.fullName || '—'}</td>
+                                            <td>${o.phone || '—'}</td>
+                                            <td>${o.address || '—'}</td>
+                                            <td>${formatPrice(o.total)}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        ` : '<p style="color:#94a3b8;">Házirshe buyırtpalar joq</p>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ---- Render functions for other pages ----
+        function renderHome() {
+            const featured = products.slice(0, 8);
+            const categories = [...new Map(products.map(p => [p.category, { name: p.category, count: products.filter(x => x.category === p.category).length }])).values()];
+            
+            document.getElementById('app').innerHTML = `
+                <section class="hero" style="padding:80px 0 60px; position:relative; overflow:hidden;">
+                    <div class="container hero-grid" style="display:flex; flex-wrap:wrap; align-items:center; gap:50px;">
+                        <div class="hero-text" style="flex:1;">
+                            <h2 style="font-size:54px; font-weight:800; line-height:1.2; background:linear-gradient(135deg, #ffffff, #2a6df4, #8b5cf6); -webkit-background-clip:text; background-clip:text; color:transparent;">Xojalıq texnikasınıń<br>aqıllı dúnyası</h2>
+                            <p style="font-size:18px; color:#94a3b8; margin:24px 0;">NKS TECH - eń jańa texnologiyalar, eń jaqsı bahalar hám tez jetkerip beriw. AI járdemshisi sizge eń sáykes ónimdi tabıwǵa járdem beredi.</p>
+                            <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                                <button class="btn-primary" onclick="navigateTo('products')"><i class="fas fa-arrow-right"></i> Satıp alıw</button>
+                                <button class="btn-outline" onclick="navigateTo('deals')"><i class="fas fa-tag"></i> Aksiyalar</button>
+                            </div>
+                        </div>
+                        <div class="hero-image" style="flex:1; text-align:center;">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=400&fit=crop" alt="Smart Home" style="max-width:100%; animation:float 3s ease-in-out infinite;">
+                        </div>
+                    </div>
+                </section>
+                <div class="container">
+                    <div class="section-title">📱 Kategoriyalar</div>
+                    <div class="categories-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:20px; margin-bottom:50px;" id="categoriesGrid"></div>
+                    
+                    <div class="section-title">🔥 Belgili ónimler</div>
+                    <div class="products-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:25px; margin-bottom:50px;" id="featuredProducts"></div>
+                    
+                    <div class="section-title">🎯 Waqıtlı shegirmeler</div>
+                    <div class="products-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:25px; margin-bottom:50px;" id="dealProducts"></div>
+                </div>
+            `;
+            
+            document.getElementById('categoriesGrid').innerHTML = categories.map(cat => `
+                <div class="category-card" style="background:rgba(255,255,255,0.05); border-radius:20px; padding:25px 15px; text-align:center; cursor:pointer; transition:all 0.3s; border:1px solid rgba(255,255,255,0.1);" onclick="navigateTo('products'); setTimeout(() => filterByCategory('${cat.name}'), 100);">
+                    <i class="fas ${getCategoryIcon(cat.name)}" style="font-size:40px; color:#2a6df4; margin-bottom:12px;"></i>
+                    <h4>${cat.name}</h4>
+                    <p style="font-size:12px; color:#94a3b8;">${cat.count} ónim</p>
+                </div>
+            `).join('');
+            
+            document.getElementById('featuredProducts').innerHTML = featured.map(p => renderProductCard(p)).join('');
+            const deals = products.filter(p => p.oldPrice).slice(0, 4);
+            document.getElementById('dealProducts').innerHTML = deals.map(p => renderProductCard(p)).join('');
+        }
+
+        function getCategoryIcon(category) {
+            const icons = { 'Suwıtqıshlar': 'fa-thermometer-half', 'Kir juwıw': 'fa-tshirt', 'Televizorlar': 'fa-tv', 'Asxana': 'fa-utensils', 'Tazalaw': 'fa-broom', 'Konditsionerler': 'fa-wind', 'Gadjetler': 'fa-mobile-alt', 'Klimat': 'fa-leaf', 'Aqıllı úy': 'fa-microchip', 'Audio': 'fa-headphones', 'Kishi texnika': 'fa-blender' };
+            return icons[category] || 'fa-box';
+        }
+
+        function renderProductCard(p, showActions = true) {
+            const inWishlist = wishlist.includes(p.id);
+            const inCompare = compareList.includes(p.id);
+            return `
+                <div class="product-card" style="background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border-radius:20px; overflow:hidden; transition:all 0.4s; border:1px solid rgba(255,255,255,0.1); cursor:pointer; position:relative;" onclick="showProductDetail(${p.id})">
+                    ${p.badge ? `<div class="badge" style="position:absolute; top:12px; left:12px; background:linear-gradient(135deg,#ff4d4d,#ff6a6a); color:white; font-size:10px; border-radius:20px; padding:4px 10px; font-weight:700; z-index:2;">${p.badge}</div>` : ''}
+                    <div class="product-img" style="text-align:center; padding:25px; background:rgba(0,0,0,0.2); height:220px; display:flex; align-items:center; justify-content:center;">
+                        <img src="${p.image}" alt="${p.name}" style="max-width:100%; max-height:170px; object-fit:contain; transition:transform 0.3s;" onerror="this.src='https://placehold.co/300x200/2a6df4/white?text=${encodeURIComponent(p.name)}'">
+                    </div>
+                    <div class="product-info" style="padding:20px;">
+                        <div class="product-cat" style="font-size:11px; color:#2a6df4; font-weight:600; text-transform:uppercase;">${p.brand} • ${p.category}</div>
+                        <div class="product-title" style="font-size:16px; font-weight:700; margin:8px 0;">${p.name}</div>
+                        <div class="rating" style="color:#fbbf24; margin:8px 0; font-size:13px;">⭐ ${p.rating} (${p.reviews})</div>
+                        <div><span class="price" style="font-size:20px; font-weight:800; color:#2a6df4;">${formatPrice(p.price)}</span>${p.oldPrice ? `<span class="old-price" style="font-size:12px; text-decoration:line-through; color:#94a3b8; margin-left:8px;">${formatPrice(p.oldPrice)}</span>` : ''}</div>
+                        ${showActions ? `
+                            <div class="product-actions" style="display:flex; gap:8px; margin-top:12px;">
+                                <button class="btn-cart" style="flex:1; padding:8px; border-radius:12px; border:none; cursor:pointer; transition:0.3s; font-size:13px; background:#2a6df4; color:white;" onclick="event.stopPropagation(); addToCart(${p.id})"><i class="fas fa-cart-plus"></i></button>
+                                <button class="btn-wishlist" style="flex:1; padding:8px; border-radius:12px; border:none; cursor:pointer; transition:0.3s; font-size:13px; background:rgba(255,255,255,0.1); color:#94a3b8; ${inWishlist ? 'background:#2a6df4; color:white;' : ''}" onclick="event.stopPropagation(); toggleWishlist(${p.id})"><i class="fas fa-heart"></i></button>
+                                <button class="btn-compare" style="flex:1; padding:8px; border-radius:12px; border:none; cursor:pointer; transition:0.3s; font-size:13px; background:rgba(255,255,255,0.1); color:#94a3b8; ${inCompare ? 'background:#2a6df4; color:white;' : ''}" onclick="event.stopPropagation(); toggleCompare(${p.id})"><i class="fas fa-chart-simple"></i></button>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function showProductDetail(id) {
+            const p = products.find(pr => pr.id === id);
+            const inWishlist = wishlist.includes(p.id);
+            const inCompare = compareList.includes(p.id);
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width:900px; width:90%; max-height:85vh; overflow-y:auto; padding:30px; border:1px solid rgba(42,109,244,0.5); border-radius:28px; background:rgba(20,20,40,0.98);">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px;">
+                        <div><img src="${p.image}" style="width:100%; border-radius:20px;"></div>
+                        <div>
+                            <h2>${p.name}</h2>
+                            <p class="product-cat" style="font-size:11px; color:#2a6df4; font-weight:600; text-transform:uppercase;">${p.brand} • ${p.category}</p>
+                            <div class="rating" style="color:#fbbf24; margin:8px 0; font-size:13px;">⭐ ${p.rating} (${p.reviews} pikirler)</div>
+                            <div style="margin:15px 0;"><span class="price" style="font-size:28px; font-weight:800; color:#2a6df4;">${formatPrice(p.price)}</span>${p.oldPrice ? `<span class="old-price" style="font-size:12px; text-decoration:line-through; color:#94a3b8; margin-left:8px;">${formatPrice(p.oldPrice)}</span>` : ''}</div>
+                            <p><i class="fas fa-check-circle" style="color:#22c55e;"></i> Bar: ${p.inStock ? 'Borda' : 'Yo\'q'}</p>
+                            <p><i class="fas fa-shield-alt"></i> Kepillik: ${p.warranty} oy</p>
+                            <p style="margin:15px 0;">${p.desc}</p>
+                            <div style="display:flex; gap:10px; margin-top:20px;">
+                                <button class="btn-primary" onclick="addToCart(${p.id}); this.closest('.modal').remove();"><i class="fas fa-cart-plus"></i> Sevet</button>
+                                <button class="btn-outline" onclick="toggleWishlist(${p.id}); this.closest('.modal').remove();"><i class="fas fa-heart"></i> Súyikliler</button>
+                                <button class="btn-outline" onclick="toggleCompare(${p.id}); this.closest('.modal').remove();"><i class="fas fa-chart-line"></i> Salıstırıw</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-outline" onclick="this.closest('.modal').remove()" style="margin-top:20px;">Jabiw</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.onclick = (e) => { if(e.target === modal) modal.remove(); };
+        }
+
+        function renderProducts() {
+            document.getElementById('app').innerHTML = `
+                <div class="container">
+                    <div class="filter-bar" style="background:rgba(255,255,255,0.05); border-radius:20px; padding:20px; margin:30px 0;">
+                        <div class="filter-row" style="display:flex; flex-wrap:wrap; gap:15px; align-items:center; justify-content:space-between; margin-bottom:20px;">
+                            <div class="search-box" style="display:flex; align-items:center; background:rgba(255,255,255,0.1); border-radius:48px; padding:10px 20px; flex:2; min-width:200px;">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="Ónim izlew..." style="background:transparent; border:none; color:white; padding:8px 12px; width:100%; outline:none;">
+                            </div>
+                            <div class="filter-group" style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <select id="categoryFilter" class="filter-select" style="background:rgba(255,255,255,0.1); border:none; padding:10px 20px; border-radius:40px; color:white; cursor:pointer; font-family:'Inter',sans-serif;">
+                                    <option value="all">Barlıq kategoriyalar</option>
+                                    ${[...new Set(products.map(p => p.category))].map(c => `<option value="${c}">${c}</option>`).join('')}
+                                </select>
+                                <select id="brandFilter" class="filter-select" style="background:rgba(255,255,255,0.1); border:none; padding:10px 20px; border-radius:40px; color:white; cursor:pointer; font-family:'Inter',sans-serif;">
+                                    <option value="all">Barlıq brendler</option>
+                                    ${[...new Set(products.map(p => p.brand))].map(b => `<option value="${b}">${b}</option>`).join('')}
+                                </select>
+                                <select id="sortFilter" class="filter-select" style="background:rgba(255,255,255,0.1); border:none; padding:10px 20px; border-radius:40px; color:white; cursor:pointer; font-family:'Inter',sans-serif;">
+                                    <option value="default">Usınıs</option>
+                                    <option value="price_asc">Bahanıń ósiwi</option>
+                                    <option value="price_desc">Bahasınıń tómenlewi</option>
+                                    <option value="rating">Reyting</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-row" style="display:flex; flex-wrap:wrap; gap:15px; align-items:center;">
+                            <div class="price-range" style="display:flex; gap:15px; align-items:center;">
+                                <input type="number" id="minPrice" placeholder="Min baha" value="0" style="background:rgba(255,255,255,0.1); border:none; padding:8px 12px; border-radius:12px; color:white; width:100px;">
+                                <span>-</span>
+                                <input type="number" id="maxPrice" placeholder="Max baha" value="20000000" style="background:rgba(255,255,255,0.1); border:none; padding:8px 12px; border-radius:12px; color:white; width:100px;">
+                            </div>
+                            <div class="filter-group" style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <label style="display:flex; align-items:center; gap:6px;"><input type="checkbox" id="inStockOnly"> Faqat mavjud</label>
+                                <button id="clearFilters" class="btn-outline" style="padding:8px 20px;">Tozalash</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="productsCount" style="margin-bottom:15px;"></div>
+                    <div class="products-grid" id="productsGrid"></div>
+                    <button id="loadMore" class="btn-outline" style="display:block; margin:0 auto 50px;">Kóbirek júklew</button>
+                </div>
+            `;
+            
+            let currentPage = 1;
+            let filteredProducts = [...products];
+            
+            function applyFilters() {
+                const search = document.getElementById('searchInput')?.value.toLowerCase() || '';
+                const category = document.getElementById('categoryFilter')?.value || 'all';
+                const brand = document.getElementById('brandFilter')?.value || 'all';
+                const sort = document.getElementById('sortFilter')?.value || 'default';
+                const minPrice = parseInt(document.getElementById('minPrice')?.value) || 0;
+                const maxPrice = parseInt(document.getElementById('maxPrice')?.value) || 20000000;
+                const inStockOnly = document.getElementById('inStockOnly')?.checked || false;
+                
+                filteredProducts = products.filter(p => {
+                    if (search && !p.name.toLowerCase().includes(search) && !p.desc.toLowerCase().includes(search)) return false;
+                    if (category !== 'all' && p.category !== category) return false;
+                    if (brand !== 'all' && p.brand !== brand) return false;
+                    if (p.price < minPrice || p.price > maxPrice) return false;
+                    if (inStockOnly && !p.inStock) return false;
+                    return true;
+                });
+                
+                if (sort === 'price_asc') filteredProducts.sort((a,b) => a.price - b.price);
+                else if (sort === 'price_desc') filteredProducts.sort((a,b) => b.price - a.price);
+                else if (sort === 'rating') filteredProducts.sort((a,b) => b.rating - a.rating);
+                
+                document.getElementById('productsCount').innerHTML = `<p>${filteredProducts.length} ta mahsulot topildi</p>`;
+                renderProductPage(1);
+            }
+            
+            function renderProductPage(page) {
+                const itemsPerPage = 12;
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const pageProducts = filteredProducts.slice(0, end);
+                const grid = document.getElementById('productsGrid');
+                grid.innerHTML = pageProducts.map(p => renderProductCard(p)).join('');
+                document.getElementById('loadMore').style.display = pageProducts.length >= filteredProducts.length ? 'none' : 'block';
+            }
+            
+            document.getElementById('searchInput').addEventListener('input', () => { currentPage = 1; applyFilters(); });
+            document.getElementById('categoryFilter').addEventListener('change', () => { currentPage = 1; applyFilters(); });
+            document.getElementById('brandFilter').addEventListener('change', () => { currentPage = 1; applyFilters(); });
+            document.getElementById('sortFilter').addEventListener('change', () => { currentPage = 1; applyFilters(); });
+            document.getElementById('minPrice').addEventListener('change', () => { currentPage = 1; applyFilters(); });
+            document.getElementById('maxPrice').addEventListener('change', () => { currentPage = 1; applyFilters(); });
+            document.getElementById('inStockOnly').addEventListener('change', () => { currentPage = 1; applyFilters(); });
+            document.getElementById('clearFilters').addEventListener('click', () => {
+                document.getElementById('searchInput').value = '';
+                document.getElementById('categoryFilter').value = 'all';
+                document.getElementById('brandFilter').value = 'all';
+                document.getElementById('sortFilter').value = 'default';
+                document.getElementById('minPrice').value = 0;
+                document.getElementById('maxPrice').value = 20000000;
+                document.getElementById('inStockOnly').checked = false;
+                applyFilters();
+            });
+            
+            let loadMoreCount = 1;
+            document.getElementById('loadMore').addEventListener('click', () => {
+                loadMoreCount++;
+                renderProductPage(loadMoreCount);
+            });
+            
+            applyFilters();
+        }
+
+        function renderDeals() {
+            const deals = products.filter(p => p.oldPrice);
+            document.getElementById('app').innerHTML = `
+                <div class="container">
+                    <div class="section-title">🎯 Waqıtlı shegirmeler</div>
+                    <div class="products-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:25px; margin-bottom:50px;" id="dealsGrid"></div>
+                </div>
+            `;
+            document.getElementById('dealsGrid').innerHTML = deals.map(p => renderProductCard(p)).join('');
+        }
+
+        function renderDashboard() {
+            const totalSpent = orders.reduce((s, o) => s + o.total, 0);
+            document.getElementById('app').innerHTML = `
+                <div class="container">
+                    <div class="section-title">👤 Meniń kabinetim</div>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin-bottom:30px;">
+                        <div class="stat-card" style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; text-align:center; border:1px solid rgba(255,255,255,0.05);">
+                            <i class="fas fa-box fa-2x" style="color:#2a6df4;"></i>
+                            <h3>${orders.length}</h3>
+                            <p style="color:#94a3b8;">Buyurtmalar</p>
+                        </div>
+                        <div class="stat-card" style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; text-align:center; border:1px solid rgba(255,255,255,0.05);">
+                            <i class="fas fa-shopping-cart fa-2x" style="color:#2a6df4;"></i>
+                            <h3>${cart.reduce((s,i)=>s+i.quantity,0)}</h3>
+                            <p style="color:#94a3b8;">Sebettegi ónimler</p>
+                        </div>
+                        <div class="stat-card" style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; text-align:center; border:1px solid rgba(255,255,255,0.05);">
+                            <i class="fas fa-chart-line fa-2x" style="color:#2a6df4;"></i>
+                            <h3>${formatPrice(totalSpent)}</h3>
+                            <p style="color:#94a3b8;">Ulıwma satıp alıw</p>
+                        </div>
+                    </div>
+                    <div class="section-title">❤️ Súyikliler</div>
+                    <div class="products-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:25px; margin-bottom:50px;" id="wishlistGrid"></div>
+                    <div class="section-title">📦 Buyırtpalar tariyxı</div>
+                    <div id="ordersList"></div>
+                </div>
+            `;
+            
+            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
+            document.getElementById('wishlistGrid').innerHTML = wishlistProducts.length ? wishlistProducts.map(p => renderProductCard(p)).join('') : '<p style="color:#94a3b8;">Súyikliler dizimi bos</p>';
+            
+            document.getElementById('ordersList').innerHTML = orders.length ? orders.map(o => `
+                <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:16px; margin-bottom:10px; border:1px solid rgba(255,255,255,0.05);">
+                    <div style="display:flex; justify-content:space-between;"><strong>№${o.id}</strong><span>${o.date}</span></div>
+                    <p>Summa: ${formatPrice(o.total)}</p>
+                    <p>Jaǵday: <span style="color:#22c55e;">Jetkerip atır</span></p>
+                </div>
+            `).join('') : '<p style="color:#94a3b8;">Buyırtpalar joq</p>';
+        }
+
+        function renderCheckout() {
+            if (cart.length === 0) { showToast("Savat bo'sh!"); navigateTo('products'); return; }
+            const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            document.getElementById('app').innerHTML = `
+                <div class="container" style="padding:60px 0;">
+                    <div class="section-title">📝 Buyırtpanı rásmiylestiriw</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px;">
+                        <div>
+                            <h3>Jetkerip beriw maǵlıwmatları</h3>
+                            <input type="text" id="fullName" placeholder="At familiya" style="width:100%; padding:12px; margin:10px 0; background:rgba(255,255,255,0.1); border:none; border-radius:12px; color:white;">
+                            <input type="tel" id="phone" placeholder="Telefon" style="width:100%; padding:12px; margin:10px 0; background:rgba(255,255,255,0.1); border:none; border-radius:12px; color:white;">
+                            <input type="text" id="address" placeholder="Manzil" style="width:100%; padding:12px; margin:10px 0; background:rgba(255,255,255,0.1); border:none; border-radius:12px; color:white;">
+                            <h3 style="margin-top:20px;">Tólem usılı</h3>
+                            <select id="paymentMethod" class="filter-select" style="width:100%; padding:12px; background:rgba(255,255,255,0.1); border:none; border-radius:12px; color:white;">
+                                <option value="cash">Naq pul</option>
+                                <option value="card">Plastik karta</option>
+                                <option value="payme">Payme</option>
+                                <option value="click">Click</option>
+                            </select>
+                        </div>
+                        <div>
+                            <h3>Buyırtpa juwmaǵı</h3>
+                            ${cart.map(item => `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.1);"><span>${item.name} x ${item.quantity}</span><span>${formatPrice(item.price * item.quantity)}</span></div>`).join('')}
+                            <div style="font-size:24px; font-weight:700; margin-top:20px;">Barliq: ${formatPrice(total)}</div>
+                            <button class="btn-primary" style="margin-top:20px; width:100%;" onclick="completeOrder()">Buyırtpanı tastıyıqlaw</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            window.completeOrder = () => {
+                const fullName = document.getElementById('fullName').value;
+                const phone = document.getElementById('phone').value;
+                const address = document.getElementById('address').value;
+                const payment = document.getElementById('paymentMethod').value;
+                if (!fullName || !phone || !address) { showToast("Barlıq maydanlardı toltırıń!", true); return; }
+                placeOrder({ fullName, phone, address, payment });
+                navigateTo('dashboard');
+            };
+        }
+
+        function renderContact() {
+            document.getElementById('app').innerHTML = `
+                <div class="container" style="padding:60px 0;">
+                    <div class="section-title">📞 Baylanıs orayı</div>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:30px;">
+                        <div class="glass" style="padding:30px; border-radius:24px; background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1);"><i class="fas fa-map-marker-alt fa-2x" style="color:#2a6df4;"></i><h3>Manzil</h3><p>рынок, г. Нукус, Ерназар Алако'з 162 ориентир: Дехканский, Nukus, Uzbekistan</p></div>
+                        <div class="glass" style="padding:30px; border-radius:24px; background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1);"><i class="fas fa-phone fa-2x" style="color:#2a6df4;"></i><h3>Telefon</h3><p>+998 71 200 55 55</p><p>+998 91 391 24 34</p></div>
+                        <div class="glass" style="padding:30px; border-radius:24px; background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1);"><i class="fas fa-envelope fa-2x" style="color:#2a6df4;"></i><h3>Email</h3><p>support@nkstech.uz</p></div>
+                    </div>
+                    <div class="glass" style="margin-top:40px; padding:30px; border-radius:24px; background:rgba(255,255,255,0.05); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.1);">
+                        <h3>Tez buyırtpa</h3>
+                        <input type="text" id="callbackPhone" placeholder="Telefon nomer" style="width:100%; padding:12px; margin:10px 0; background:rgba(255,255,255,0.1); border:none; border-radius:12px;">
+                        <button class="btn-primary" onclick="showToast('Operator sizga tez orada qo\'ng\'iroq qiladi!')">Buyırtpa beriw</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterByCategory(category) {
+            setTimeout(() => {
+                const catFilter = document.getElementById('categoryFilter');
+                if (catFilter) { catFilter.value = category; const event = new Event('change'); catFilter.dispatchEvent(event); }
+            }, 100);
+        }
+
+        function renderCurrentPage() {
+            if (currentPage === 'home') renderHome();
+            else if (currentPage === 'products') renderProducts();
+            else if (currentPage === 'deals') renderDeals();
+            else if (currentPage === 'admin') renderAdminPanel();
+            else if (currentPage === 'dashboard') renderDashboard();
+            else if (currentPage === 'checkout') renderCheckout();
+            else if (currentPage === 'contact') renderContact();
+            updateComparePanel();
+        }
+
+        function navigateTo(page) {
+            currentPage = page;
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === page) link.classList.add('active');
+            });
+            renderCurrentPage();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('light-mode', !darkMode);
+            localStorage.setItem('darkMode', darkMode);
+            document.getElementById('darkToggle').innerHTML = darkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        }
+
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletterEmail')?.value;
+            if (email) { showToast("Jazıldıńız! Jańalıqlar sizge elektron pochta arqalı jiberiledi."); document.getElementById('newsletterEmail').value = ''; }
+        }
+
+        // ---- Compare Panel (bottom right) ----
+        const comparePanelHTML = `
+            <div id="comparePanel" class="compare-panel" style="position:fixed; bottom:20px; right:20px; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); border-radius:20px; padding:15px 20px; border:1px solid #2a6df4; z-index:1000; display:none; min-width:260px;">
+                <strong><i class="fas fa-chart-line"></i> Salıstırıw (<span id="compareCount">0</span>/3)</strong>
+                <div id="compareList"></div>
+                <button id="compareBtn" class="btn-outline" style="margin-top:10px; width:100%; padding:8px;">Salıstırıw</button>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', comparePanelHTML);
+
+        // ---- Scroll Top ----
+        const scrollTopHTML = `<div class="scroll-top" id="scrollTop" style="position:fixed; bottom:20px; left:20px; width:45px; height:45px; background:linear-gradient(135deg,#2a6df4,#8b5cf6); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; transition:0.3s; z-index:1000;"><i class="fas fa-arrow-up"></i></div>`;
+        document.body.insertAdjacentHTML('beforeend', scrollTopHTML);
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.scrollY > 300) scrollTop.classList.add('show');
+            else scrollTop.classList.remove('show');
+        });
+        document.getElementById('scrollTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // ---- Init ----
+        function init() {
+            // Load products from localStorage if exists
+            const savedProducts = localStorage.getItem('smarttexno_products');
+            if (savedProducts) {
+                try { products = JSON.parse(savedProducts); } catch(e) {}
+            } else {
+                localStorage.setItem('smarttexno_products', JSON.stringify(products));
+            }
+
+            if (!darkMode) document.body.classList.add('light-mode');
+            document.getElementById('darkToggle').innerHTML = darkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
+            document.getElementById('cartIcon').addEventListener('click', renderCartModal);
+            document.getElementById('closeCartBtn').addEventListener('click', () => document.getElementById('cartModal').style.display = 'none');
+            document.getElementById('checkoutBtn').addEventListener('click', checkout);
+            document.getElementById('compareBtn').addEventListener('click', showCompareModal);
+            document.getElementById('userIcon').addEventListener('click', () => navigateTo('dashboard'));
+            
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigateTo(link.getAttribute('data-page'));
+                    document.getElementById('navLinks')?.classList.remove('active');
+                });
+            });
+            
+            updateComparePanel();
+            renderHome();
+        }
+        
+        init();
+    </script>
+    </body>
+    </html>
