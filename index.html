@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+<html lang="kaa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programmalıq támiynat sapası</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            background: #f4f7fd;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        .hero {
+            background: linear-gradient(125deg, #0b2b4f 0%, #1a4a7a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: 1rem auto 0;
+            opacity: 0.9;
+        }
+
+        .main-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            position: sticky;
+            top: 1rem;
+            height: fit-content;
+            border: 1px solid #e2e8f0;
+        }
+
+        .sidebar h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f3b5c;
+            border-left: 4px solid #2c7da0;
+            padding-left: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: #2c3e50;
+            text-decoration: none;
+            border-radius: 0.75rem;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar a:hover {
+            background: #e1f0fa;
+            color: #0f5b8c;
+            padding-left: 1.2rem;
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.8rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e9edf2;
+            scroll-margin-top: 1rem;
+        }
+
+        .card:hover {
+            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+
+        .badge {
+            display: inline-block;
+            background: #d9eefa;
+            color: #1e6f9f;
+            font-weight: 700;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.9rem;
+            border-radius: 30px;
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #0b2b3f;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin: 1.2rem 0 0.5rem;
+            color: #1a4a6e;
+        }
+
+        p, li {
+            color: #ffffff; 
+        }
+
+        .figure-box {
+            background: #fafcff;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            border: 1px solid #dee7f2;
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .stats-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.2rem 0;
+        }
+
+        .stat-mini {
+            background: #f0f6fe;
+            border-radius: 1rem;
+            padding: 0.6rem 1rem;
+            text-align: center;
+            flex: 1;
+            font-weight: 500;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 0.6rem;
+            text-align: left;
+        }
+
+        th {
+            background: #eef2ff;
+        }
+
+        .quote {
+            background: #ecfdf5;
+            border-left: 5px solid #0f7b6e;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-style: italic;
+            margin: 1rem 0;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+        .info-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+        .info-list li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #2c7da0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #cbd5e6;
+            color: #5b6e8c;
+            font-size: 0.8rem;
+            background: #ffffffc9;
+        }
+
+        @media (max-width: 800px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="hero">
+    <h1>Programmalıq támiynat sapası, standartlastırıw hám testlew</h1>
+    <p>UIT 2-DI 23 studenti Seytbaev Berik — Programmaliq támiynat sapası</p>
+</div>
+
+<div class="main-container">
+    <aside class="sidebar">
+        <h3>Temalar dizimi</h3>
+        <ul>
+            <li><a href="#t1">1. Sapa usılları: process &amp; ónim</a></li>
+            <li><a href="#t2">2. Qadaǵalaw (QC) basqıshları</a></li>
+            <li><a href="#t3">3. Nátiyjelilik hám isenimlilik</a></li>
+            <li><a href="#t4">4. ISO 25010 sapa omilleri</a></li>
+            <li><a href="#t5">5. Sanlı bahalaw, metrikalar</a></li>
+            <li><a href="#t6">6. Sapa kriteriyaları</a></li>
+            <li><a href="#t7">7. Xalıqaralıq standartlar</a></li>
+            <li><a href="#t8">8. Sertifikatsiyalaw</a></li>
+            <li><a href="#t9">9. TQM hám jetilistiriw</a></li>
+            <li><a href="#t10">10. Verifikatsiya / Validatsiya</a></li>
+            <li><a href="#t11">11. CI/CD procesleri</a></li>
+            <li><a href="#t12">12. Agile / Scrum basqarıw</a></li>
+            <li><a href="#t13">13. Shegaralıq analiz &amp; qara qutı</a></li>
+            <li><a href="#t14">14. Test rejesi, avtomatlastırıw</a></li>
+            <li><a href="#t15">15. Huqıqıy tiykarlar &amp; keleshek</a></li>
+        </ul>
+    </aside>
+
+    <div class="content-area">
+        <!-- 1 -->
+        <div class="card" id="t1">
+            <span class="badge">1-tema</span>
+            <h2>Sapanı támiynlew usılları: Ónim hám process sapası</h2>
+            <p><strong>SQA (Software Quality Assurance)</strong> — bul programmalıq ónimi rawajlanıw basqıshlarındaǵı sapalı processlerdi támiynlew. Process sapası - jumıs usıllarınıń durıslıǵı, ónim sapası - final onımi talaplarǵa say keletuǵının ańlatadı.</p>
+            <div class="figure-box">
+                <svg width="480" height="130" viewBox="0 0 480 130">
+                    <rect x="30" y="30" width="160" height="65" rx="14" fill="#1f6392" opacity="0.9" />
+                    <text x="110" y="70" fill="white" font-size="14" text-anchor="middle">Process sapası</text>
+                    <text x="110" y="88" fill="#e9f1f7" font-size="10" text-anchor="middle">(CMMI, ISO 12207)</text>
+                    <rect x="240" y="30" width="160" height="65" rx="14" fill="#2c7da0" />
+                    <text x="320" y="70" fill="white" font-size="14" text-anchor="middle">Ónim sapası</text>
+                    <text x="320" y="88" fill="#e0f0f7" font-size="10" text-anchor="middle">(funksiya, isenimlilik)</text>
+                    <path d="M190 62 L230 62" stroke="#ffffff" stroke-width="3" marker-end="url(#arw)"/>
+                    <defs><marker id="arw" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 z" fill="white"/></marker></defs>
+                </svg>
+                <div class="figcaption">1-súwret: Process penen ónim sapası bir-birin tolıqtıradı.</div>
+            </div>
+            <div class="quote">"Sapalı process — sapalı ónimdiń kópillik kefili" — Deming principi</div>
+            <p><strong>Qosımsha maǵlıwmat:</strong> Process sapasın jaqsılaw ushın PDCA (Plan-Do-Check-Act) cikli qollanıladı. Ónim sapası bolsa funksional talap hám performance kórsetkishler arqalı ólshenedi.</p>
+        </div>
+
+        <!-- 2 -->
+        <div class="card" id="t2">
+            <span class="badge">2-tema</span>
+            <h2>Sapanı qadaǵalaw (QC) basqıshları</h2>
+            <p>QC tómendegi 4 tiykarǵı bosqısh tan ibarat: 1) Talap analizi; 2) Kod review hám statikalıq analiz; 3) Dinamikalıq testlew; 4) Defektlerdi saplaw hám esabat.</p>
+            <div class="figure-box">
+                <svg width="500" height="100" viewBox="0 0 500 100">
+                    <circle cx="55" cy="45" r="24" fill="#2580b0"/><text x="55" y="51" fill="white" font-size="13" text-anchor="middle">1</text>
+                    <circle cx="155" cy="45" r="24" fill="#2c7da0"/><text x="155" y="51" fill="white" font-size="13" text-anchor="middle">2</text>
+                    <circle cx="255" cy="45" r="24" fill="#3a8bbf"/><text x="255" y="51" fill="white" font-size="13" text-anchor="middle">3</text>
+                    <circle cx="355" cy="45" r="24" fill="#58a9cf"/><text x="355" y="51" fill="white" font-size="13" text-anchor="middle">4</text>
+                    <text x="55" y="92" text-anchor="middle" font-size="10">Talap tekseriwi</text>
+                    <text x="155" y="92" text-anchor="middle" font-size="10">Statikalıq analiz</text>
+                    <text x="255" y="92" text-anchor="middle" font-size="10">Dinamikalıq test</text>
+                    <text x="355" y="92" text-anchor="middle" font-size="10">Defekt katalogı</text>
+                </svg>
+            </div>
+            <p>QC procesi ónimniń hár bir basqıshında qátelerdi anıqlaw hám olardı saplawǵa baǵdarlanǵan. Bul bosqıshlarda statikalıq analiz ushın SonarQube, dinamikalıq test ushın JUnit hám Selenium qollanıladı.</p>
+        </div>
+
+        <!-- 3 -->
+        <div class="card" id="t3">
+            <span class="badge">3-tema</span>
+            <h2>Nátiyjelilik hám isenimlilik kórsetkishleri</h2>
+            <div class="stats-panel">
+                <div class="stat-mini">CPU nátiyjeliligi: <strong>42% jaqsılandı</strong></div>
+                <div class="stat-mini">MTBF: <strong>850 saat</strong></div>
+                <div class="stat-mini">MTTF: <strong>720 saat</strong></div>
+                <div class="stat-mini">Qálpe kórsetkish: <strong>0.9%</strong></div>
+            </div>
+            <p><strong>MTBF (Mean Time Between Failures)</strong> — eki qáte ortasındaǵı ortasha waqıt. Joqarı MTBF isenimlilikke ısarat. Nátiyjelilik bolsa resurslardı unamlı paydalanıw (CPU, xotira). <strong>MTTF (Mean Time To Failure)</strong> — birinshi qátege shekemǵi waqıt. Bul kórsetkishler sistemalardıń isenimliligin bahalawda tiykarǵı rol oynaydı.</p>
+            <div class="quote">Máselen, bankomat sistemasında MTBF 1000 saat dan joqarı bolıwı kerek.</div>
+        </div>
+
+        <!-- 4 ISO faktörler -->
+        <div class="card" id="t4">
+            <span class="badge">4-tema</span>
+            <h2>ISO/IEC 25010 sapa omilleri</h2>
+            <div class="figure-box">
+                <svg width="500" height="110" viewBox="0 0 500 110">
+                    <rect x="20" y="20" width="100" height="40" fill="#1f6e96" rx="6"/><text x="70" y="44" fill="white" font-size="11" text-anchor="middle">Funkcionallıq</text>
+                    <rect x="135" y="20" width="100" height="40" fill="#3080aa" rx="6"/><text x="185" y="44" fill="white" font-size="11" text-anchor="middle">Qáwipsizlik</text>
+                    <rect x="250" y="20" width="100" height="40" fill="#4293be" rx="6"/><text x="300" y="44" fill="white" font-size="11" text-anchor="middle">Tutınıwshılıq</text>
+                    <rect x="365" y="20" width="100" height="40" fill="#6bb0d4" rx="6"/><text x="415" y="44" fill="white" font-size="11" text-anchor="middle">Portativlik</text>
+                </svg>
+                <p style="margin-top:10px; font-size:0.8rem">Qosımsha omiller: isenimlilik, qolaylıq, saqlanıwshılıq</p>
+            </div>
+            <table>
+                <tr><th>Omil</th><th>Izoh</th></tr>
+                <tr><td>Funkcionallıq</td><td>Wazıypalardı tolıq orınlaydı</td></tr>
+                <tr><td>Isenimlilik</td><td>Qátesiz islew dárejesi</td></tr>
+                <tr><td>Qáwipsizlik</td><td>Maǵlıwmatlardı qorǵaw</td></tr>
+                <tr><td>Performance</td><td>Juwap beriw waqıtı, resurslar</td></tr>
+            </table>
+            <p>ISO 25010 standartı programma óniminiń 8 tiykarǵı sapa ólshemin belgileydi. Bulardıń ishinde uyqaslıq, analizleniwshilik hám ózgertiwshilik de bar.</p>
+        </div>
+
+        <!-- 5 Sanlı metrikalar -->
+        <div class="card" id="t5">
+            <span class="badge">5-tema</span>
+            <h2>Sanlı bahalaw: defekt tıǵızlıǵı, kod qamrovı</h2>
+            <div class="figure-box">
+                <svg width="400" height="120" viewBox="0 0 400 120">
+                    <rect x="30" y="40" width="70" height="40" fill="#2580b0"/><text x="65" y="65" fill="white" text-anchor="middle">1.8</text>
+                    <rect x="130" y="30" width="70" height="50" fill="#2c7da0"/><text x="165" y="65" fill="white" text-anchor="middle">87%</text>
+                    <rect x="230" y="45" width="70" height="35" fill="#479bc7"/><text x="265" y="68" fill="white" text-anchor="middle">9.2</text>
+                    <text x="65" y="105" text-anchor="middle" font-size="9">defekt/KLOC</text>
+                    <text x="165" y="105" text-anchor="middle" font-size="9">test qamrovı</text>
+                    <text x="265" y="105" text-anchor="middle" font-size="9">siklik murakkab</text>
+                </svg>
+            </div>
+            <p>Kod qamrovı ≥80% dep maqul esaplanadı. Siklik murakkablıq Joó (McCabe) úlkenligi quramalılıqtı kórsetedi. Defekt tıǵızlıǵı 1 KLOC (mıń qatar kod) ushın 1.8 dep kórsetilgen.</p>
+            <div class="quote">Eger defekt tıǵızlıǵı 3 ten joqarı bolsa, kod qayta kórip shıǵılıwı kerek.</div>
+        </div>
+
+        <!-- 6 Sapa kriteriyası -->
+        <div class="card" id="t6">
+            <span class="badge">6-tema</span>
+            <h2>Sapa kriteriyaları: tolıqlıq, anıqlıq, turaqlılıq</h2>
+            <ul class="info-list">
+                <li><strong>Tolıqlıq (Completeness)</strong> — ónim barlıq funksiyalardı orınlaydı, hesh qanday kemislik joq.</li>
+                <li><strong>Anıqlıq (Accuracy)</strong> — mısalı, finanslıq sistemalarda qáte 0.01% ten tómen bolıwı shárt.</li>
+                <li><strong>Turaqlılıq (Robustness)</strong> — júk kórgen sáyiste (stress-test) buzılmaydı, qáte situaciyalarda da isleydi.</li>
+                <li><strong>Qayta isletiwshilik</strong> — kod modulleri basqa joybarlarda da qollanıla aladı.</li>
+            </ul>
+        </div>
+
+        <!-- 7 Standartlar -->
+        <div class="card" id="t7">
+            <span class="badge">7-tema</span>
+            <h2>Standartlastırıw: ISO 12207, CMMI, IEEE 829</h2>
+            <div class="figure-box">
+                <svg width="450" height="70" viewBox="0 0 450 70">
+                    <rect x="20" y="15" width="110" height="40" rx="8" fill="#1a5a7a"/><text x="75" y="40" fill="white" font-size="12">ISO 12207</text>
+                    <rect x="150" y="15" width="110" height="40" rx="8" fill="#26648b"/><text x="205" y="40" fill="white" font-size="12">CMMI</text>
+                    <rect x="280" y="15" width="110" height="40" rx="8" fill="#3982aa"/><text x="335" y="40" fill="white" font-size="12">IEEE 829</text>
+                </svg>
+            </div>
+            <p><strong>ISO/IEC 12207</strong> — programmalıq támiynat ómir cikli processlerin belgileydi. <strong>CMMI (Capability Maturity Model Integration)</strong> — process jetiliskenlik dárejelerin (1-den 5-ge shekem) bahalaydı. <strong>IEEE 829</strong> — test dokumentaciyası (test reje, test case, qáte esabatı) ushın standart.</p>
+        </div>
+
+        <!-- 8 Sertifikatlash -->
+        <div class="card" id="t8">
+            <span class="badge">8-tema</span>
+            <h2>Sertifikatlash : DO-178C, meditsina hám bank sapası</h2>
+            <p>Aviaciya (DO-178C), medicina qurılmaları (IEC 62304), bank sistemaları (PCI DSS, ISO 27001) ushın sertifikatsiyasız bozarǵa shıǵıw qıyın. ISO 9001 (Jámi basqarıw) hám ISO 27001 (maǵlıwmatlar qáwipsizligi) de úzliksiz talap etiledi.</p>
+            <div class="quote">DO-178C dárejesi A (critical) dárejesinde hár bir kod qatarı test qamrovın talap etedi.</div>
+        </div>
+
+        <!-- 9 TQM -->
+        <div class="card" id="t9">
+            <span class="badge">9-tema</span>
+            <h2>TQM: Úzliksiz jetilistiriw (Kaizen)</h2>
+            <p>Jámi sapalı basqarıw — demokratik liderlik, processlerdi optimallastırıw. Hár bir sprint ten keyin retrospektiv ótkeriw, client qanaatlanıwın ólshew.</p>
+            <div class="figure-box">
+                <svg width="300" height="100" viewBox="0 0 300 100">
+                    <circle cx="150" cy="50" r="40" fill="none" stroke="#2c7da0" stroke-width="4"/>
+                    <text x="150" y="55" text-anchor="middle" fill="#1e4a6e" font-size="12">Kaizen</text>
+                    <text x="150" y="75" text-anchor="middle" fill="#4a6a8a" font-size="9">úlken emes, biraq úzliksiz</text>
+                </svg>
+            </div>
+            <div class="quote">"Búgin keshigiden jaqsıraq bolıw — TQM principi"</div>
+            <p>TQM tiykarında PDCA cikli, statistikalıq process basqarıw (SPC), benchmark hám toparlı jumıs metodları bar.</p>
+        </div>
+
+        <!-- 10 Verifikatsiya/Validatsiya -->
+        <div class="card" id="t10">
+            <span class="badge">10-tema</span>
+            <h2>Verifikatsiya vs Validatsiya</h2>
+            <ul class="info-list">
+                <li><strong>Verifikatsiya:</strong> “Tuwrı qurıp atamız ba?” (specifikaciyaǵa saylıq) — statikalıq analiz, kod review, inspection.</li>
+                <li><strong>Validatsiya:</strong> “Tuwrı ónim qurdıq pa?” (paydalanıwshı mútájligi) — dinamikalıq test, betatesting, alfa/beta versiyalar.</li>
+            </ul>
+            <div class="figure-box">
+                <svg width="300" height="60"><rect x="20" y="15" width="120" height="32" fill="#57a6c7" rx="6"/><text x="80" y="36" fill="white" font-size="12">Verifikatsiya</text><rect x="165" y="15" width="120" height="32" fill="#165a7a" rx="6"/><text x="225" y="36" fill="white" font-size="12">Validatsiya</text></svg>
+            </div>
+            <p>Máselen, specifikaciya boyınsha túyme basqanda jaqtılıq jánedi — verifikatsiya. Paydalanıwshı usı funkciyanı qalay qabıl etedi — validatsiya.</p>
+        </div>
+
+        <!-- 11 CI/CD -->
+        <div class="card" id="t11">
+            <span class="badge">11-tema</span>
+            <h2>CI/CD quwırları (DevOps)</h2>
+            <p>Continuous Integration / Continuous Deployment : Jenkins, GitHub Actions, GitLab CI, Azure DevOps. Avtomatlastırılǵan build, test hám deploy sapalıqtı tezletedi.</p>
+            <div class="figure-box">
+                <svg width="360" height="50" viewBox="0 0 360 50">
+                    <rect x="15" y="10" width="80" height="30" fill="#329d8c" rx="6"/><text x="55" y="30" fill="white" font-size="10">Build</text>
+                    <rect x="115" y="10" width="80" height="30" fill="#1f6e8c" rx="6"/><text x="155" y="30" fill="white" font-size="10">Test</text>
+                    <rect x="215" y="10" width="80" height="30" fill="#0e5775" rx="6"/><text x="255" y="30" fill="white" font-size="10">Deploy</text>
+                    <path d="M95 25 L110 25" stroke="#fff" stroke-width="2"/><path d="M195 25 L210 25" stroke="#fff" stroke-width="2"/>
+                </svg>
+            </div>
+            <p>CI/CD pipeline'da unit test, integraciyalıq test, sonardıq endi statikalıq analiz avtomat túrde iske tusedi.</p>
+        </div>
+
+        <!-- 12 Agile -->
+        <div class="card" id="t12">
+            <span class="badge">12-tema</span>
+            <h2>Agile / Scrum arqalı basqarıw</h2>
+            <p>Sprintlar (1-4 hápte), product backlog, daily stand-up. Sapalıq ushın test avtomatizaciyası hár bir sprintke kiredi. Scrumda Definition of Done (DoD) — sprint ta'minlenetuǵın sapalıq standartlar jıynaǵı.</p>
+            <div class="stats-panel">
+                <div class="stat-mini">Product Owner</div>
+                <div class="stat-mini">Scrum Master</div>
+                <div class="stat-mini">Development Team</div>
+            </div>
+            <div class="quote">"Agile'da testlew passiv emes, aktiv process — testers hár kúni kodqa test jazadı."</div>
+        </div>
+
+        <!-- 13 Shegaralıq analiz, Black box -->
+        <div class="card" id="t13">
+            <span class="badge">13-tema</span>
+            <h2>Shegaralıq analiz (BVA) hám ekvivalentlik bóliniw</h2>
+            <p>Mısal: parol uzınlıǵı 8–16 simvol. Sınaw mánisleri: 7,8,9,15,16,17 (shegaralıq mánisler). Jáne <strong>Qara qutı</strong> (Black Box) – input/outputqa qaray, kod ishki strukturası kórinbeydi. <strong>Aq qutı</strong> (White Box) – kod logikasın analiz qıladı, branch hám path test.</p>
+            <div class="figure-box">
+                <svg width="360" height="50" viewBox="0 0 360 50">
+                    <circle cx="45" cy="25" r="12" fill="#e35152"/><text x="40" y="30" fill="white" font-size="9">7</text>
+                    <circle cx="95" cy="25" r="12" fill="#44aa77"/><text x="90" y="30" fill="white" font-size="9">8</text>
+                    <circle cx="165" cy="25" r="12" fill="#44aa77"/><text x="160" y="30" fill="white" font-size="9">15</text>
+                    <circle cx="215" cy="25" r="12" fill="#44aa77"/><text x="210" y="30" fill="white" font-size="9">16</text>
+                    <circle cx="270" cy="25" r="12" fill="#e35152"/><text x="265" y="30" fill="white" font-size="9">17</text>
+                </svg>
+            </div>
+            <p>Ekvivalentlik bólistiriw: 1-7 (qábilet joq), 8-16 (qábilet bar), 17+ (qábilet joq). Testlewde hám bir diapazondan bir mánis alınsa boladı.</p>
+        </div>
+
+        <!-- 14 Test rejesi -->
+        <div class="card" id="t14">
+            <span class="badge">14-tema</span>
+            <h2>Test rejesi hám avtomatlastırılǵan testlew</h2>
+            <p>Test rejesi quramı: test strategiyası, resurslar, test kriteriyaları, test jumısları, shıǵıw kriteriyaları. Selenium, Cypress, Postman, JUnit járdeminde unit test, integraciyalıq test, E2E test.</p>
+            <div class="stats-panel">
+                <div class="stat-mini">Unit test (Jest/JUnit)</div>
+                <div class="stat-mini">Integraciya (Postman)</div>
+                <div class="stat-mini">E2E (Cypress)</div>
+                <div class="stat-mini">Load test (JMeter)</div>
+            </div>
+            <div class="figure-box">
+                <svg width="400" height="50" viewBox="0 0 400 50">
+                    <rect x="10" y="5" width="80" height="30" fill="#1f6e8c" rx="6"/><text x="50" y="24" fill="white" font-size="9">Unit</text>
+                    <rect x="110" y="5" width="90" height="30" fill="#2c7da0" rx="6"/><text x="155" y="24" fill="white" font-size="9">Integraciya</text>
+                    <rect x="220" y="5" width="80" height="30" fill="#4293be" rx="6"/><text x="260" y="24" fill="white" font-size="9">E2E</text>
+                    <rect x="320" y="5" width="70" height="30" fill="#5aa9d5" rx="6"/><text x="355" y="24" fill="white" font-size="9">Júk</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- 15 Huqıqıy tiykar hám rawajlanıw -->
+        <div class="card" id="t15">
+            <span class="badge">15-tema</span>
+            <h2>Huqıqıy tiykarlar hám AI testlewge integraciya</h2>
+            <p>Programmalıq támiynat sapası boyınsha huqıqıy hújjetler: ISO normativleri (ISO 9001, ISO 27001), milliylestiriw (GOST), cifrlıq huqıq (GDPR, CC). AI járdeminde test generation (diffblue, testim.io), CMMI dárejelerin kóteriw.</p>
+            <div class="figure-box">
+                <svg width="300" height="60">
+                    <polygon points="40,45 150,10 260,45 150,35" fill="#2c7da0" opacity="0.9"/>
+                    <text x="150" y="38" fill="white" text-anchor="middle" font-size="10">Úzliksiz sapalıq jetilistiriw</text>
+                </svg>
+            </div>
+            <div class="quote">"Keleshekte sapalıq testlew AI hám ML modelleri menen birge isleydi: avtomat test case generation, qáte boljaw, test maǵlıwmatların sintetizaciyalaw."</div>
+            <p>Machine Learning modellerin testlew (ML Test Score) hám AI etikası da sapa standartlarınıń bir bólegine aylanbaqta.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+```
